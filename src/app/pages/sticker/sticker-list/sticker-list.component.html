@@ -1,0 +1,19 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-11">
+        Sticker Set List
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-primary btn-icon" (click)="openAddStickerModal()">
+          <i class="nb-plus"></i>
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>    
+    <ng2-smart-table [settings]="settings" [source]="source">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>
