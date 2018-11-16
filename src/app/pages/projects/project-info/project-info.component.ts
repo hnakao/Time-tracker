@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from '../../../@core/models/project';
 import { ProjectService } from '../../../@core/data/project.service';
@@ -16,8 +16,7 @@ export class ProjectInfoComponent implements OnInit {
   project: Project;
   t_form: string;
 
-  constructor(private activeModal: NgbActiveModal,
-              private projectService: ProjectService) { }
+  constructor(private activeModal: NgbActiveModal) { }
 
   ngOnInit() { }
 
@@ -25,8 +24,8 @@ export class ProjectInfoComponent implements OnInit {
     this.activeModal.close();
   }
 
-  readThis(inputValue: any): void {
+/*   readThis(inputValue: any): void {
     const file: File = inputValue.files[0];
     const myReader: FileReader = new FileReader();
-  }
+  } */
 }

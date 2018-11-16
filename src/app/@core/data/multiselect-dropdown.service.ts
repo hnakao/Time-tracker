@@ -1,4 +1,3 @@
-import { DropdownButtonsComponent } from './../../pages/ui-features/buttons/dropdown-buttons/dropdown-button.component';
 import { Injectable } from '@angular/core';
 
 
@@ -16,7 +15,7 @@ export class MultiselectDropdownService {
 
   selectedItems = [
     { item_id: 3, item_text: 'Manuel' },
-    { item_id: 4, item_text: 'Alejandro' }
+    { item_id: 4, item_text: 'Alejandro' },
   ];
 
   dropdownSettings = {

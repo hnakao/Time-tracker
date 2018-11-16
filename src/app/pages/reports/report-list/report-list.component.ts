@@ -86,12 +86,12 @@ export class ReportListComponent implements OnInit {
   constructor(private service: ReportService,
     private modalService: NgbModal) { }
 
-  openAddReportModal() {
+ /*  openAddReportModal() {
     const modal: NgbModalRef = this.modalService.open(AddReportComponent, { size: 'lg', container: 'nb-layout' });
    // (<AddReportComponent>modal.componentInstance).save.subscribe(data => {
    //   this.getTableData();
    // });
-  }
+  } */
 
   editReport(report) {
     const modal: NgbModalRef = this.modalService.open(AddReportComponent, { size: 'lg', container: 'nb-layout' });

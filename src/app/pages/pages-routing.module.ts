@@ -3,11 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ECommerceComponent } from './e-commerce/e-commerce.component';
-import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
+// import { ECommerceComponent } from './e-commerce/e-commerce.component';
+// import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+// import { MediaListComponent } from './media/media-list/media-list.component';
+
 import { UserListComponent } from './users/user-list/user-list.component';
-import { MediaListComponent } from './media/media-list/media-list.component';
 import { StickerComponent } from './sticker/sticker/sticker.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { ReportListComponent } from './reports/report-list/report-list.component';
@@ -27,7 +28,7 @@ const routes: Routes = [{
   }, {
     path: 'projects',
     component: ProjectListComponent,
-  }, 
+  },
   /*
   {
     path: 'media',

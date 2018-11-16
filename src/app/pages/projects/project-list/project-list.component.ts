@@ -118,7 +118,6 @@ export class ProjectListComponent implements OnInit {
     this.service.getProjects()
       .subscribe((data: Project[]) => {
         this.source.load(data);
-        console.log(data);
       });
   }
 

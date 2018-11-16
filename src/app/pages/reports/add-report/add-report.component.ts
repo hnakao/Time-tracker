@@ -28,7 +28,7 @@ export class AddReportComponent implements OnInit {
     this.activeModal.close();
   }
 
-  selectedFile(event) {
+/*   selectedFile(event) {
     this.logo = event.target.value;
     const temp = this.logo.split('\\');
     this.logo = temp[temp.length - 1];
@@ -40,12 +40,12 @@ export class AddReportComponent implements OnInit {
     const file: File = inputValue.files[0];
     const myReader: FileReader = new FileReader();
 
-    // myReader.onloadend = (e) => {
-    //   this.report.logoBase64 = myReader.result.toString();
-    // };
-    // myReader.readAsDataURL(file);
+    myReader.onloadend = (e) => {
+      this.report.logoBase64 = myReader.result.toString();
+    };
+    myReader.readAsDataURL(file);
   }
-
+ */
   onSubmit() {
     if (this.report._id) {
       this.reportService.updateReport(this.report).subscribe( data => {

@@ -1,11 +1,12 @@
 import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { GlobalService } from './global.service';
+// import { HttpClient } from '@angular/common/http';
+// import { GlobalService } from './global.service';
 import { Project} from '../models/project';
 
 
