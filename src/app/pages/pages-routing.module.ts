@@ -1,3 +1,4 @@
+
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -8,6 +9,8 @@ import { NotFoundComponent } from './miscellaneous/not-found/not-found.component
 import { UserListComponent } from './users/user-list/user-list.component';
 import { MediaListComponent } from './media/media-list/media-list.component';
 import { StickerComponent } from './sticker/sticker/sticker.component';
+import { ProjectListComponent } from './projects/project-list/project-list.component';
+import { ReportListComponent } from './reports/report-list/report-list.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,6 +22,14 @@ const routes: Routes = [{
     path: 'users',
     component: UserListComponent,
   }, {
+    path: 'reports',
+    component: ReportListComponent,
+  }, {
+    path: 'projects',
+    component: ProjectListComponent,
+  }, 
+  /*
+  {
     path: 'media',
     component: MediaListComponent,
   }, {
@@ -51,13 +62,16 @@ const routes: Routes = [{
   }, {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',
-  }, {
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
+  */
+  {
     path: '',
     redirectTo: 'stickers',
     pathMatch: 'full',
-  }, {
-    path: '**',
-    component: NotFoundComponent,
   }],
 }];
 

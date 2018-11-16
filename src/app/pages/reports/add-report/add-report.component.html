@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <span>Add Report Set</span>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit(event)" #addReportForm="ngForm">
+    <div class="form-group">
+      <label for="name_dev">Developer Name</label>
+      <input type="text" class="form-control" id="name_dev" name="name_dev" [(ngModel)]="report.name_dev">
+    </div>
+    <div class="form-group">
+      <label for="project_name">Project Name</label>
+      <input type="text" class="form-control" id="project_name" name="project_name" [(ngModel)]="report.project_name">
+    </div>
+    <div class="form-group">
+      <label for="time_work">Time Work</label>
+      <input type="number" class="form-control" id="time_work" name="time_work" [(ngModel)]="report.time_work">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea type="text" class="form-control" id="description" name="description" [(ngModel)]="report.description"></textarea>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-md btn-primary" [disabled]="!addReportForm.valid">Save changes</button>
+    </div>
+    <!--button type="submit" class="btn btn-danger">Submit</button-->
+  </form>
+</div>

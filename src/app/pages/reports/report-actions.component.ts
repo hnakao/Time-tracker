@@ -18,15 +18,13 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   </div>
   `,
 })
-export class StickerActionsComponent implements OnInit {
+export class ReportActionsComponent implements OnInit {
   @Input() value: any;    // This hold the cell value
   @Input() rowData: any;  // This holds the entire row object
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
   @Output() view = new EventEmitter();
   @Output() generate = new EventEmitter();
-
-
 
   constructor() {}
 

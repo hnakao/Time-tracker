@@ -2,7 +2,7 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'BACKOFFICE',
+    title: 'OPTIONS',
     group: true,
   },
   /*{
@@ -22,15 +22,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/stickers',
     home: true,
   },
-  /*{
-    title: 'Users',
+  {
+    title: 'Developers',
     icon: 'nb-person',
-    link: '/pages/users'
+    link: '/pages/users',
   },
+  {
+    title: 'Reports',
+    icon: 'nb-compose',
+    link: '/pages/reports',
+  },
+  {
+    title: 'Projects',
+    icon: 'ion-settings',
+    link: '/pages/projects',
+  },
+
+/*
+// menu tema
   {
     title: 'Media Content',
     icon: 'nb-play-outline',
-    link: '/pages/media'
+    link: '/pages/media',
   },
   {
     title: 'TEMPLATE',
@@ -197,5 +210,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
-  },*/
+  },
+  */
 ];

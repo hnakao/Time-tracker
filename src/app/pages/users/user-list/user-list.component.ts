@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+
+
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+import { UserActionsComponent } from '../user-actions.component';
 import { UserService } from '../../../@core/data/users.service';
+import { AddUserComponent } from '../add-user/add-user.component';
+import { UserT } from '../../../@core/models/userT';
 
 @Component({
   selector: 'ngx-user-list',
@@ -13,49 +20,105 @@ import { UserService } from '../../../@core/data/users.service';
 })
 export class UserListComponent implements OnInit {
 
+
   settings = {
     hideSubHeader: true,
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
-    edit: {
+    actions: false,
+    /*edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
     },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },*/
     columns: {
-
-      picture: {
-        title: 'Picture',
-        type: 'html',
-        valuePrepareFunction: (value) => ( `<img src="` + value + `" />` ),
+      user_name: {
+        title: 'Name',
+        type: 'string',
         filter: false,
       },
-      name: {
-        title: 'Name',
-        type: 'number',
+      last_name: {
+        title: 'Last Name',
+        type: 'string',
         filter: false,
+      },
+      rol: {
+        title: 'Rol',
+        type: 'string',
+        filter: false,
+      },
+      email: {
+        title: 'e-Mail',
+        type: 'string',
+        filter: false,
+      },
+      _id: {
+        title: 'Actions',
+        type: 'custom',
+        filter: false,
+        renderComponent: UserActionsComponent,
+        onComponentInitFunction: (instance) => {
+          instance.edit.subscribe(row => {
+            this.editUser(row);
+          });
+          instance.delete.subscribe(row => {
+            if (window.confirm('Are you sure you want to delete?')) {
+              this.service.deleteUserT(row.user_name).subscribe( data => {
+                // this.getTableData();
+                this.source.load(data);
+
+              });
+            }
+          });
+          // instance.view.subscribe(row => {
+          //   this.onView(row);
+          // });
+        },
+        width: '8%',
       },
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
+  @Output() usertSelected = new EventEmitter();
 
-  constructor(private service: UserService) {
-    const data = this.service.getData();
-    this.source.load(data);
-  }
-
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
+  constructor(private service: UserService,
+              private modalService: NgbModal) {
     }
+
+  openAddUserModal() {
+    const modal: NgbModalRef = this.modalService.open(AddUserComponent, { size: 'lg', container: 'nb-layout' });
+    (<AddUserComponent>modal.componentInstance).t_form = 'New User';
+    (<AddUserComponent>modal.componentInstance).save.subscribe(data => {
+     this.getTableData();
+   });
   }
+
+  editUser(user) {
+    const modal: NgbModalRef = this.modalService.open(AddUserComponent, { size: 'lg', container: 'nb-layout' });
+    (<AddUserComponent>modal.componentInstance).user = user;
+    (<AddUserComponent>modal.componentInstance).t_form = 'Edit User';
+    (<AddUserComponent>modal.componentInstance).save.subscribe(data => {
+      this.getTableData();
+    });
+  }
+
+  // onView(row): void {
+  //   const modal: NgbModalRef = this.modalService.open(UserInfoComponent, { size: 'lg', container: 'nb-layout' });
+  //   (<UserInfoComponent>modal.componentInstance).User = row;
+  // }
 
   ngOnInit() {
+    this.getTableData();
+  }
+
+  getTableData() {
+    this.service.getUsersT()
+    .subscribe((data: UserT[]) => {
+      this.source.load(data);
+    });
   }
 
 }

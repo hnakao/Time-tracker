@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <span>{{t_form}}</span>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()" #addProjectForm="ngForm">
+    
+    <div class= "row">
+      <div class="form-group col-md-8">
+        <label for="project_name">Name</label>
+        <input type="text" class="form-control" id="project_name" name="project_name" [(ngModel)]="project.project_name">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="estimated_duration">Estimated Duration</label>
+        <input type="number" class="form-control" id="estimated_duration" name="estimated_duration" [(ngModel)]="project.estimated_duration">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">User(s)</label>
+      <ng-multiselect-dropdown
+              class="form-control"
+              [placeholder]="'Add New'"
+              [data]="dropdownList"
+              [(ngModel)]="selectedItems"
+              name="selectedItems"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)">
+      </ng-multiselect-dropdown>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea type="text" class="form-control" id="description" name="description" [(ngModel)]="project.description"></textarea>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-md btn-primary" [disabled]="!addProjectForm.valid">Save changes</button>
+    </div>
+    <!--button type="submit" class="btn btn-danger">Submit</button-->
+  </form>
+</div>
