@@ -87,9 +87,9 @@ export class StickerListComponent implements OnInit {
 
   openAddStickerModal() {
     const modal: NgbModalRef = this.modalService.open(AddStickerComponent, { size: 'lg', container: 'nb-layout' });
-   // (<AddStickerComponent>modal.componentInstance).save.subscribe(data => {
-   //   this.getTableData();
-   // });
+   (<AddStickerComponent>modal.componentInstance).save.subscribe(data => {
+   this.getTableData();
+   });
   }
 
   editSticker(sticker) {

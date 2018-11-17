@@ -55,7 +55,6 @@ export class ProjectListComponent implements OnInit {
         type: 'html',
         valuePrepareFunction: (value) => {
           let chip: string = ``;
-          const aa: string = 'polo';
           if (value.length > 0) {
             for (let i = 0; i < value.length; i++) {
               chip =  `${chip}

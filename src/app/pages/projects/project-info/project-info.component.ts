@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from '../../../@core/models/project';
-import { ProjectService } from '../../../@core/data/project.service';
+
 
 
 

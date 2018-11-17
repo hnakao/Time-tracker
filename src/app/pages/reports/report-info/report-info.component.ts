@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Report } from './../../../@core/models/report';
-import { ReportService } from './../../../@core/data/report.service';
-
-
 
 
 @Component({
