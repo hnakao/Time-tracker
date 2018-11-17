@@ -1,66 +1,58 @@
+import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { GlobalService } from './global.service';
+// import { HttpClient } from '@angular/common/http';
+// import { GlobalService } from './global.service';
+
 import { Report} from '../models/report';
 
 @Injectable()
 
 export class ReportService {
-  data = [{
-    _id: 0,
-    name_dev: 'Nick Jones',
-    project_name: 'Cognoware',
-    time_work: '150',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }, {
-    _id: 1,
-    name_dev: 'Eva Moor',
-    project_name: 'MoreSnaker',
-    time_work: '250',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }, {
-    _id: 2,
-    name_dev: 'Jack Williams',
-    project_name: 'Chaskify',
-    time_work: '160',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }, {
-    _id: 3,
-    name_dev: 'Lee Wong',
-    project_name: 'Facebook',
-    time_work: '100',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }, {
-    _id: 4,
-    name_dev: 'Alan Thompson',
-    project_name: 'FishShop',
-    time_work: '450',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }, {
-    _id: 5,
-    name_dev: 'Kate Martinez',
-    project_name: 'TeleMondo',
-    time_work: '350',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }, {
-    _id: 6,
-    name_dev: 'Carlos Julio',
-    project_name: 'MDBexpress',
-    time_work: '50',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-  }];
 
-  getData() {
-    return this.data;
+  data: Report[] = [
+    new Report('Nick Jones', 'Cognoware', 150,
+               'Lorem ipsum dolor, sit amet consectetur adipisicing elit.'),
+    new Report('Eva Moor', 'MoreSnaker', 250,
+               'Lorem ipsum dolor, sit amet consectetur adipisicing elit.'),
+  ];
+
+  getData(): Observable<any> {
+    return observableOf(this.data);
+  }
+
+  getReports(): Observable<Report[]> {
+    return observableOf(this.data);
+  }
+
+  createReport(report: Report): Observable<Report[]> {
+    this.data.push(report);
+    return observableOf(this.data);
+  }
+
+  updateReport(report: Report): Observable<any> {
+    return observableOf(this.data);
+  }
+
+  deleteReport(userName: string): Observable<any> {
+    let index = -1;
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].userName === userName) {
+        index = i;
+      }
+    }
+    if (index >= 0)
+      this.data.splice(index, 1);
+    return observableOf(this.data);
   }
 
 
+
 // Dinamic data
-private baseUrl: string;
+/* private baseUrl: string;
 
   constructor(private http: HttpClient, private global: GlobalService) {
     this.baseUrl = `${this.global.apiUrl()}api/reportsets`;
@@ -84,7 +76,7 @@ private baseUrl: string;
 
   deleteReport(id: string) {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
+  } */
 
 
 }

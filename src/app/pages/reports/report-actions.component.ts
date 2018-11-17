@@ -12,10 +12,6 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
     <div class="col-md-3">
       <nb-action icon="fas fa-eye" (click)="onView()"></nb-action>
     </div>
-    <div class="col-md-3">
-      <nb-action icon="fas fa-cogs" (click)="onGenerate()"></nb-action>
-    </div>
-  </div>
   `,
 })
 export class ReportActionsComponent implements OnInit {
@@ -24,7 +20,7 @@ export class ReportActionsComponent implements OnInit {
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
   @Output() view = new EventEmitter();
-  @Output() generate = new EventEmitter();
+
 
   constructor() {}
 
@@ -40,10 +36,6 @@ export class ReportActionsComponent implements OnInit {
 
   onView() {
     this.view.emit(this.rowData);
-  }
-
-  onGenerate() {
-    this.generate.emit(this.rowData);
   }
 
 }

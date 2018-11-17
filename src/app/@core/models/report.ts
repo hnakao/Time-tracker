@@ -1,14 +1,14 @@
 export class Report {
     _id: string;
-    name_dev: string;
-    project_name: string;
-    time_work: number;
+    projectName: string;
+    userName: string;
+    timeWork: number;
     description: string;
 
-    constructor(project_name: string, time_work: number, description: string ) {
-        this.name_dev = '';
-        this.project_name = project_name;
-        this.time_work = time_work;
+    constructor(userName: string, projectName: string, timeWork: number, description: string ) {
+        this.userName = userName;
+        this.projectName = projectName;
+        this.timeWork = timeWork;
         this.description = description;
     }
 }

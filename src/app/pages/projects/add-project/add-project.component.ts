@@ -1,10 +1,14 @@
 
+
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Project } from '../../../@core/models/project';
 import { ProjectService } from '../../../@core/data/project.service';
-import { MultiselectDropdownService } from './../../../@core/data/multiselect-dropdown.service';
+
+import { UserT } from './../../../@core/models/userT';
+import { UserService } from './../../../@core/data/users.service';
+
 
 
 @Component({
@@ -16,49 +20,54 @@ export class AddProjectComponent implements OnInit {
 
 
   project: Project;
-  t_form: string;
+  titleForm: string;
+  userAssignedItems = [];
 
-  // user_asig: UserT[] = [];
 
   dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
+
+  dropdownSettings = {
+    singleSelection: false,
+    idField: 'userName',
+    textField: 'userName',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 5,
+    allowSearchFilter: true,
+  };
 
 
   @Output() save = new EventEmitter();
 
   constructor(private activeModal: NgbActiveModal,
               private projectService: ProjectService,
-              private multiDropdown: MultiselectDropdownService) {
+              private userService: UserService) {
     if (!this.project) {
       this.project = new Project('', 0, '');
     }
   }
 
   ngOnInit() {
-    this.dropdownList = this.multiDropdown.getDropdownList();
-    this.dropdownSettings = this.multiDropdown.getDropdownSettings();
-    this.selectedItems = this.multiDropdown.getSelectedItems();
+    this.getItemsDropdown();
   }
 
   closeModal() {
     this.activeModal.close();
   }
 
- // readThis(inputValue: any): void {
- //   const file: File = inputValue.files[0];
- //   const myReader: FileReader = new FileReader();
 
-    // myReader.onloadend = (e) => {
-    //   this.project.logoBase64 = myReader.result.toString();
-    // };
-    // myReader.readAsDataURL(file);
-  // }
+  getItemsDropdown() {
+      this.userService.getUsersT().subscribe((data: UserT[]) => {
+      this.dropdownList = data;
+      });
+      this.userAssignedItems = this.project.userAsig;
+  }
 
   onSubmit() {
     let find = false;
+    this.userAssignedMultiSelect();
     for (const proj of this.projectService.data) {
-      if (proj.project_name === this.project.project_name ) {
+      if (proj.projectName === this.project.projectName ) {
         this.projectService.updateProject(this.project).subscribe( data => {
           this.closeModal();
           this.onSave();
@@ -73,6 +82,16 @@ export class AddProjectComponent implements OnInit {
         this.onSave();
        });
     }
+ }
+
+ userAssignedMultiSelect() {
+  let user: UserT;
+  this.project.userAsig = [];
+  for (let i = 0; i < this.userAssignedItems.length; i++) {
+      user = new UserT('', '', '', '');
+      user.userName = this.userAssignedItems[i];
+      this.project.userAsig.push( user );
+  }
  }
 
   onSave() {

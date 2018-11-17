@@ -1,5 +1,6 @@
 
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
 import { LocalDataSource } from 'ng2-smart-table';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,25 +35,41 @@ export class ProjectListComponent implements OnInit {
       confirmDelete: true,
     },*/
     columns: {
-      project_name: {
+      projectName: {
         title: 'Project Name',
         type: 'string',
         filter: false,
       },
-      estimated_duration: {
+      estimatedDuration: {
         title: 'Estimated Duration',
         type: 'number',
         filter: false,
       },
-      spent_time: {
+      spentTime: {
         title: 'Spent Time',
         type: 'number',
         filter: false,
       },
-      project_developers: {
-        title: 'Project Developers',
-        type: 'string',
-        filter: false,
+      userAsig: {
+        title: 'Users Assigned',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          let chip: string = ``;
+          const aa: string = 'polo';
+          if (value.length > 0) {
+            for (let i = 0; i < value.length; i++) {
+              chip =  `${chip}
+                        <div class = "row">
+                          <div class = "container">
+                          ${value[i].userName}
+                          </div>
+                        </div>
+                      `;
+            }
+            return chip;
+           }
+        },
+        filter: true,
       },
       _id: {
         title: 'Actions',
@@ -65,9 +82,7 @@ export class ProjectListComponent implements OnInit {
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
-              this.service.deleteProject(row.project_name).subscribe(data => {
-                // this.getTableData();
-
+              this.service.deleteProject(row.projectName).subscribe(data => {
                 this.source.load(data);
               });
             }
@@ -90,7 +105,7 @@ export class ProjectListComponent implements OnInit {
 
   openAddProjectModal() {
     const modal: NgbModalRef = this.modalService.open(AddProjectComponent, { size: 'lg', container: 'nb-layout' });
-    (<AddProjectComponent>modal.componentInstance).t_form = 'New Project';
+    (<AddProjectComponent>modal.componentInstance).titleForm = 'New Project';
     (<AddProjectComponent>modal.componentInstance).save.subscribe(data => {
       this.getTableData();
     });
@@ -99,7 +114,7 @@ export class ProjectListComponent implements OnInit {
   editProject(project) {
     const modal: NgbModalRef = this.modalService.open(AddProjectComponent, { size: 'lg', container: 'nb-layout' });
     (<AddProjectComponent>modal.componentInstance).project = project;
-    (<AddProjectComponent>modal.componentInstance).t_form = 'Edit Project';
+    (<AddProjectComponent>modal.componentInstance).titleForm = 'Edit Project';
     (<AddProjectComponent>modal.componentInstance).save.subscribe(data => {
       this.getTableData();
     });

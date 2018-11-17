@@ -5,11 +5,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ThemeModule } from '../../@theme/theme.module';
 
-import { ReportActionsComponent } from './report-actions.component';
-import { AddReportComponent } from './add-report/add-report.component';
-import { ReportService } from '../../@core/data/report.service';
 import { TokenInterceptor } from '../../@core/utils/token.interceptor';
+import { AddReportComponent } from './add-report/add-report.component';
+import { ReportInfoComponent } from './report-info/report-info.component';
 import { ReportListComponent } from './report-list/report-list.component';
+import { ReportActionsComponent } from './report-actions.component';
+import { ReportService } from '../../@core/data/report.service';
 
 
 @NgModule({
@@ -22,9 +23,11 @@ import { ReportListComponent } from './report-list/report-list.component';
     ReportActionsComponent,
     AddReportComponent,
     ReportListComponent,
+    ReportInfoComponent,
 
   ],
   entryComponents: [
+    ReportInfoComponent,
     ReportActionsComponent,
     AddReportComponent,
   ],

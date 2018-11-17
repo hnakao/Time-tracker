@@ -14,7 +14,7 @@ import { ProjectActionsComponent } from './project-actions.component';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { ProjectInfoComponent } from './project-info/project-info.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { MultiselectDropdownService } from './../../@core/data/multiselect-dropdown.service';
+
 
 
 import { ProjectService } from '../../@core/data/project.service';
@@ -44,7 +44,6 @@ import { ProjectListComponent } from './project-list/project-list.component';
   ],
   providers: [
     ProjectService,
-    MultiselectDropdownService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

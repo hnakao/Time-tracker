@@ -14,7 +14,7 @@ import { ProjectService } from '../../../@core/data/project.service';
 export class ProjectInfoComponent implements OnInit {
 
   project: Project;
-  t_form: string;
+  titleForm: string;
 
   constructor(private activeModal: NgbActiveModal) { }
 
@@ -24,8 +24,4 @@ export class ProjectInfoComponent implements OnInit {
     this.activeModal.close();
   }
 
-/*   readThis(inputValue: any): void {
-    const file: File = inputValue.files[0];
-    const myReader: FileReader = new FileReader();
-  } */
 }

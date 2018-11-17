@@ -1,15 +1,13 @@
 import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 // import { HttpClient } from '@angular/common/http';
 // import { GlobalService } from './global.service';
+
 import { Project} from '../models/project';
-
-
 
 @Injectable()
 
@@ -34,9 +32,9 @@ export class ProjectService {
   createProject(project: Project): Observable<Project[]> {
     /*
     let newProject: any[] = [];
-    newProject = [project._id, project.project_name,
-                  project.estimated_duration, project.spent_time,
-                  project.user_asig,
+    newProject = [project._id, project.projectName,
+                  project.estimatedDuration, project.spentTime,
+                  project.userAsig,
                   project.description]; */
 
     this.data.push(project);
@@ -50,7 +48,7 @@ export class ProjectService {
   deleteProject(name: string): Observable<any> {
     let index = -1;
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i].project_name === name) {
+      if (this.data[i].projectName === name) {
         index = i;
       }
     }

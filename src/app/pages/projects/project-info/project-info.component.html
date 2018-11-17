@@ -7,23 +7,35 @@
 <div class="modal-body">
     <div>
       <label><strong>Name:</strong> </label>
-      <h4>{{project.project_name}}</h4>
+      <h4>{{project.projectName}}</h4>
     </div>
     <br>
     <div class= "row container row">
       <div class = "col-md-6">
         <label><strong>Estimated Duration:</strong> </label>
-        <h6>{{project.estimated_duration}}</h6>
+        <h6>{{project.estimatedDuration}}</h6>
       </div>
       <div class = "col-md-6">
         <label><strong>Spent Time:</strong> </label>
-        <h5>{{project.spent_time}}</h5>
+        <h6>{{project.spentTime}}</h6>
+      </div>
+    </div>
+    <br>
+    
+    <div>
+      <label><strong>User(s) Asigned:</strong> </label>
+      <div class = "container col row" *ngFor="let user of project.userAsig; let i = index;" >
+        <div class = "col-md-4">
+          <h6>{{user.userName}}</h6>
+        </div>
       </div>
     </div>
     <br>
     <div>
       <label><strong>Description:</strong> </label>
-      <p>{{project.description}}</p>
+      <div class = "container"> 
+        <p>{{project.description}}</p>
+      </div>
     </div>
 </div>
 <div class="modal-footer">

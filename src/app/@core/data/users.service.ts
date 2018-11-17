@@ -27,9 +27,9 @@ export class UserService {
   createUserT(user: UserT): Observable<UserT[]> {
     /*
     let newProject: any[] = [];
-    newProject = [project._id, project.project_name,
-                  project.estimated_duration, project.spent_time,
-                  project.user_asig,
+    newProject = [project._id, project.projectName,
+                  project.estimatedDuration, project.spentTime,
+                  project.userAsig,
                   project.description]; */
 
     this.data.push(user);
@@ -43,7 +43,7 @@ export class UserService {
   deleteUserT(name: string): Observable<any> {
     let index = -1;
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i].user_name === name) {
+      if (this.data[i].userName === name) {
         index = i;
       }
     }

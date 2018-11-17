@@ -114,5 +114,6 @@ export class InstanceListComponent implements OnInit {
         this.source.load(data);
       });
   }
+  onRowSelected() {}
 
 }

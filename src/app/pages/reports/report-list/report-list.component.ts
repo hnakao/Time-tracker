@@ -3,8 +3,10 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReportActionsComponent } from '../report-actions.component';
-import { ReportService } from '../../../@core/data/report.service';
 import { AddReportComponent } from '../add-report/add-report.component';
+import { ReportInfoComponent } from './../report-info/report-info.component';
+
+import { ReportService } from '../../../@core/data/report.service';
 import { Report } from '../../../@core/models/report';
 
 @Component({
@@ -21,34 +23,21 @@ export class ReportListComponent implements OnInit {
   settings = {
     hideSubHeader: true,
     actions: false,
-    /*edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },*/
+
     columns: {
-      name_dev: {
+      userName: {
         title: 'Developer Name',
         type: 'string',
         filter: false,
       },
-      project_name: {
+      projectName: {
         title: 'Project Name',
         type: 'string',
         filter: false,
       },
-      time_work: {
+      timeWork: {
         title: 'Time Work',
         type: 'number',
-        filter: false,
-      },
-      description: {
-        title: 'Description',
-        type: 'string',
         filter: false,
       },
       _id: {
@@ -61,19 +50,14 @@ export class ReportListComponent implements OnInit {
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
-              this.service.deleteReport(row._id).subscribe( data => {
-                this.getTableData();
+              this.service.deleteReport(row.userName).subscribe( data => {
+                this.source.load(data);
               });
             }
           });
           instance.view.subscribe(row => {
-            this.reportSelected.emit(row);
+            this.onView(row);
           });
-          // instance.generate.subscribe(row => {
-          //   this.service.generateInstance(row._id).subscribe( data => {
-          //     alert('Generated instances: ' + data['generatedInstances']);
-          //   });
-          // });
         },
         width: '14%',
       },
@@ -86,19 +70,26 @@ export class ReportListComponent implements OnInit {
   constructor(private service: ReportService,
     private modalService: NgbModal) { }
 
- /*  openAddReportModal() {
+  openAddReportModal() {
     const modal: NgbModalRef = this.modalService.open(AddReportComponent, { size: 'lg', container: 'nb-layout' });
-   // (<AddReportComponent>modal.componentInstance).save.subscribe(data => {
-   //   this.getTableData();
-   // });
-  } */
+    (<AddReportComponent>modal.componentInstance).titleForm = 'New Report';
+    (<AddReportComponent>modal.componentInstance).save.subscribe(data => {
+      this.getTableData();
+    });
+  }
 
   editReport(report) {
     const modal: NgbModalRef = this.modalService.open(AddReportComponent, { size: 'lg', container: 'nb-layout' });
     (<AddReportComponent>modal.componentInstance).report = report;
-    // (<AddReportComponent>modal.componentInstance).save.subscribe(data => {
-    //   this.getTableData();
-    // });
+    (<AddReportComponent>modal.componentInstance).titleForm = 'Edit Report';
+    (<AddReportComponent>modal.componentInstance).save.subscribe(data => {
+      this.getTableData();
+    });
+  }
+
+  onView(row): void {
+    const modal: NgbModalRef = this.modalService.open(ReportInfoComponent, { size: 'lg', container: 'nb-layout' });
+    (<ReportInfoComponent>modal.componentInstance).report = row;
   }
 
   ngOnInit() {

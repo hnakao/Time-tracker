@@ -5,25 +5,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'OPTIONS',
     group: true,
   },
-  /*{
-    title: 'Dashboard 1',
-    icon: 'nb-home',
-    link: '/pages/dashboard',
-    home: true,
-  },
   {
-    title: 'Dashboard 2',
-    icon: 'nb-e-commerce',
-    link: '/pages/e-dashboard',
-  },*/
-  {
-    title: 'Stickers',
-    icon: 'nb-lightbulb',
-    link: '/pages/stickers',
-    home: true,
-  },
-  {
-    title: 'Developers',
+    title: 'Users',
     icon: 'nb-person',
     link: '/pages/users',
   },
@@ -40,6 +23,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
 /*
 // menu tema
+  {
+    title: 'Dashboard 1',
+    icon: 'nb-home',
+    link: '/pages/dashboard',
+    home: true,
+  },
+  {
+    title: 'Dashboard 2',
+    icon: 'nb-e-commerce',
+    link: '/pages/e-dashboard',
+  },
+  {
+    title: 'Stickers',
+    icon: 'nb-lightbulb',
+    link: '/pages/stickers',
+    home: true,
+  },
   {
     title: 'Media Content',
     icon: 'nb-play-outline',

@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { Report } from '../../../@core/models/report';
 import { ReportService } from '../../../@core/data/report.service';
+
 
 @Component({
   selector: 'ngx-add-report',
@@ -10,14 +12,18 @@ import { ReportService } from '../../../@core/data/report.service';
 })
 export class AddReportComponent implements OnInit {
 
-  logo: string;
+
   report: Report;
+  titleForm: string;
+
+
+
   @Output() save = new EventEmitter();
 
   constructor(private activeModal: NgbActiveModal,
     private reportService: ReportService) {
     if (!this.report) {
-      this.report = new Report('', 0, '');
+      this.report = new Report('', '', 0, '');
     }
   }
 
@@ -28,32 +34,20 @@ export class AddReportComponent implements OnInit {
     this.activeModal.close();
   }
 
-/*   selectedFile(event) {
-    this.logo = event.target.value;
-    const temp = this.logo.split('\\');
-    this.logo = temp[temp.length - 1];
-
-    this.readThis(event.target);
-  }
-
-  readThis(inputValue: any): void {
-    const file: File = inputValue.files[0];
-    const myReader: FileReader = new FileReader();
-
-    myReader.onloadend = (e) => {
-      this.report.logoBase64 = myReader.result.toString();
-    };
-    myReader.readAsDataURL(file);
-  }
- */
   onSubmit() {
-    if (this.report._id) {
-      this.reportService.updateReport(this.report).subscribe( data => {
-        this.closeModal();
-        this.onSave();
-      });
-    } else {
-      this.reportService.createReport(this.report).subscribe( data => {
+    let find = false;
+    for (const report of this.reportService.data) {
+      if (report.userName === this.report.userName) {
+          this.reportService.updateReport(this.report).subscribe( data => {
+          this.closeModal();
+          this.onSave();
+        });
+      find = true;
+      break;
+      }
+    }
+    if (!find) {
+        this.reportService.createReport(this.report).subscribe( data => {
         this.closeModal();
         this.onSave();
       });

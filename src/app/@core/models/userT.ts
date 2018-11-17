@@ -1,14 +1,14 @@
 export class UserT {
-    _id: string;
+    _id: number;
     rol: string;
-    user_name: string;
-    last_name: string;
+    userName: string;
+    lastName: string;
     email: string;
 
-    constructor(rol: string, user_name: string, last_name: string, email: string ) {
+    constructor(rol: string, userName: string, lastName: string, email: string ) {
         this.rol = rol;
-        this.user_name = user_name;
-        this.last_name = last_name;
+        this.userName = userName;
+        this.lastName = lastName;
         this.email = email;
     }
 }
