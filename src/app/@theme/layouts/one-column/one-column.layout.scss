@@ -5,6 +5,7 @@
 @include nb-install-component() {
   nb-layout-column.small {
     flex: 0.15 !important;
+    background-color: gray;
   }
 
   nb-sidebar.settings-sidebar {

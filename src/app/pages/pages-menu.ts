@@ -9,6 +9,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Users',
     icon: 'nb-person',
     link: '/pages/users',
+    home: true,
+    children: [{
+        title: 'Users List',
+        link: '/pages/users',
+        home: true,
+      }, {
+        title: 'User Role',
+        link: '/pages/users/user-role',
+      }],
   },
   {
     title: 'Reports',

@@ -15,13 +15,20 @@ export class ProjectInfoComponent implements OnInit {
 
   project: Project;
   titleForm: string;
+  percent: number;
 
   constructor(private activeModal: NgbActiveModal) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.progresPercent();
+  }
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  progresPercent() {
+    this.percent = this.project.currentSpentTime * 100 / this.project.estimatedDuration;
   }
 
 }

@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Report } from './../../../@core/models/report';
+import { UserService } from '../../../@core/data/users.service';
+import { ProjectService } from '../../../@core/data/project.service';
+import { Project } from '../../../@core/models/project';
+import { Response } from '../../../@core/models/response';
+import { UserT } from '../../../@core/models/userT';
 
 
 @Component({
@@ -11,11 +16,24 @@ import { Report } from './../../../@core/models/report';
 export class ReportInfoComponent implements OnInit {
 
   report: Report;
+  userName: string;
+  projectName: string;
   titleForm: string;
 
-  constructor(private activeModal: NgbActiveModal) { }
+  constructor(private activeModal: NgbActiveModal,
+              private projectService: ProjectService,
+              private userService: UserService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.projectService.getProject(this.report.projectId)
+        .subscribe((project: Response<Project>) => {
+          this.projectName = project.data.projectName;
+        });
+    this.userService.getUserT(this.report.userId)
+        .subscribe((user: Response<UserT>) => {
+          this.userName = user.data.firstName;
+        });
+  }
 
   closeModal() {
     this.activeModal.close();

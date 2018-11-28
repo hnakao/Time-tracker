@@ -7,6 +7,7 @@ import { of as observableOf } from 'rxjs';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
+import { GlobalService } from './data/global.service';
 
 /* const socialLinks = [
   {
@@ -27,6 +28,7 @@ import { AnalyticsService } from './utils/analytics.service';
 ]; */
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
+
   getRole() {
     // here you could provide any role based on any auth flow
     return observableOf('guest');
@@ -42,12 +44,13 @@ export const NB_CORE_PROVIDERS = [
         name: 'email',
         token: {
           class: NbAuthJWTToken,
-          key: 'access_token', // this parameter tells where to look for the token
+          key: 'data.token', // this parameter tells where to look for the token
         },
-        baseEndpoint: 'http://popmii.theslappening.com/', // TODO: coger de global service
+        // baseEndpoint: 'http://popmii.theslappening.com/', // TODO: coger de global service
+        baseEndpoint: 'http://localhost:4000/api/v1/', // TODO: coger de global service
         login: {
           alwaysFail: false,
-          endpoint: 'api/login',
+          endpoint: 'login',
           method: 'post',
           requireValidToken: false,
           redirect: {
@@ -103,7 +106,7 @@ export const NB_CORE_PROVIDERS = [
   declarations: [],
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule, globalService: GlobalService) {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 

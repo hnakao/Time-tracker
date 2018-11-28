@@ -3,6 +3,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Report } from '../../../@core/models/report';
 import { ReportService } from '../../../@core/data/report.service';
+import { ProjectService } from '../../../@core/data/project.service';
+import { Project } from '../../../@core/models/project';
+import { Response } from '../../../@core/models/response';
+import { UserT } from '../../../@core/models/userT';
+import { UserService } from '../../../@core/data/users.service';
 
 
 @Component({
@@ -12,41 +17,101 @@ import { ReportService } from '../../../@core/data/report.service';
 })
 export class AddReportComponent implements OnInit {
 
-
+  user: UserT;
   report: Report;
   titleForm: string;
+  projectList: Project[];
+
+  projectAssignedItems = [];
+  dropdownList = [];
+
+  dropdownSettings = {
+    singleSelection: true,
+    idField: 'id',
+    textField: 'projectName',
+   // selectAllText: 'Select All',
+   //  unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 1,
+    allowSearchFilter: true,
+  };
+
+  userAssignedItems = [];
+  dropdownUserList = [];
+
+  dropdownUserSettings = {
+    singleSelection: true,
+    idField: 'id',
+    textField: 'firstName',
+   // selectAllText: 'Select All',
+   //  unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 1,
+    allowSearchFilter: true,
+  };
+
 
 
 
   @Output() save = new EventEmitter();
 
   constructor(private activeModal: NgbActiveModal,
-    private reportService: ReportService) {
+              private reportService: ReportService,
+              private projectService: ProjectService,
+              private userService: UserService) {
     if (!this.report) {
       this.report = new Report('', '', 0, '');
     }
   }
 
   ngOnInit() {
+    this.getItemsDropdown();
   }
 
   closeModal() {
     this.activeModal.close();
   }
 
-  onSubmit() {
-    let find = false;
-    for (const report of this.reportService.data) {
-      if (report.userName === this.report.userName) {
-          this.reportService.updateReport(this.report).subscribe( data => {
-          this.closeModal();
-          this.onSave();
+  getItemsDropdown() {
+      this.projectService.getProjects().subscribe((projects: Response<Project[]>) => {
+           this.dropdownList = projects.data;
+           if (this.report.projectId)
+              this.projectService.getProject(this.report.projectId).subscribe((project: Response<Project>) => {
+                  this.projectAssignedItems = [project.data];
+           });
+      });
+
+      this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
+        this.dropdownUserList = users.data;
+        if (this.report.userId)
+           this.userService.getUserT(this.report.userId).subscribe((user: Response<UserT>) => {
+               this.userAssignedItems = [user.data];
         });
-      find = true;
-      break;
+   });
+
+
+  }
+
+  projectAssignedMultiSelect() {
+    if (this.projectAssignedItems.length !== 0) {
+        this.report.projectId = this.projectAssignedItems[0].id;
+    } else {
+       this.report.projectId = '';
       }
-    }
-    if (!find) {
+
+    if (this.userAssignedItems.length !== 0) {
+        this.report.userId = this.userAssignedItems[0].id;
+    } else {
+       this.report.userId = '';
+      }
+  }
+
+  onSubmit() {
+    this.projectAssignedMultiSelect();
+    if (this.report.id) {
+      this.reportService.updateReport(this.report).subscribe( data => {
+        this.closeModal();
+        this.onSave();
+      });
+    } else {
         this.reportService.createReport(this.report).subscribe( data => {
         this.closeModal();
         this.onSave();
@@ -57,4 +122,22 @@ export class AddReportComponent implements OnInit {
   onSave() {
     this.save.emit();
   }
+
+  // projectMultiSelect
+  onItemSelect(item: any) {
+    // this.roleAssignedItems.push(item);
+  }
+
+  onSelectAll(item: any) {
+  //  this.multiDropdown.pushSelectedItems(this.dropdownList);
+  }
+
+  // userMultiSelect
+  onItemSelectUser(item: any) {
+    // this.roleAssignedItems.push(item);
+  }
+  onSelectAllUser(item: any) {
+  //  this.multiDropdown.pushSelectedItems(this.dropdownList);
+  }
+
 }

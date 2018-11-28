@@ -6,20 +6,38 @@
 </div>
 <div class="modal-body">
   <form (ngSubmit)="onSubmit()" #addUserForm="ngForm">
-    
-    <div class= "row">
-      <div class="form-group col-md-4">
-        <label for="userName">Name</label>
-        <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="user.userName">
-      </div>
-      <div class="form-group col-md-8">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName">
-      </div>
+    <div class="form-group">
+      <label for="userName">Name</label>
+      <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="user.firstName">
     </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName">
+    </div>
+
     <div class="form-group">
       <label for="email">e-Mail</label>
       <input type="text" class="form-control" id="email" name="email" [(ngModel)]="user.email">
+    </div>
+
+    <div *ngIf=" titleForm === 'New User'" >
+      <div class="form-group">
+        <label for="pasword">Password</label>
+        <input type="pasword" class="form-control" id="pasword" name="pasword" [(ngModel)]="user.password">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role:</label>
+        <ng-multiselect-dropdown
+                class="form-control"
+                [placeholder]="'Select Role'"
+                [data]="dropdownList"
+                [(ngModel)]="roleAssignedItems"
+                name="roleAssignedItems"
+                [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event)">
+        </ng-multiselect-dropdown>
     </div>
     
     <div class="modal-footer">

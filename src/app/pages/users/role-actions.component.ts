@@ -15,7 +15,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   </div>
   `,
 })
-export class ProjectActionsComponent implements OnInit {
+export class RoleActionsComponent implements OnInit {
   @Input() value: any;    // This hold the cell value
   @Input() rowData: any;  // This holds the entire row object
   @Output() edit = new EventEmitter();
@@ -39,5 +39,11 @@ export class ProjectActionsComponent implements OnInit {
     this.view.emit(this.rowData);
   }
 
+ /*
+  onGenerate() {
+    this.generate.emit(this.rowData);
+  }
+  */
 
 }
+

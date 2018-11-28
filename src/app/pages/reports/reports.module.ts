@@ -11,6 +11,7 @@ import { ReportInfoComponent } from './report-info/report-info.component';
 import { ReportListComponent } from './report-list/report-list.component';
 import { ReportActionsComponent } from './report-actions.component';
 import { ReportService } from '../../@core/data/report.service';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ReportService } from '../../@core/data/report.service';
     CommonModule,
     ThemeModule,
     Ng2SmartTableModule,
+    NgMultiSelectDropDownModule,
   ],
   declarations: [
     ReportActionsComponent,

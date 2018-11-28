@@ -1,71 +1,36 @@
 import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import * as jwt_decode from 'jwt-decode';
+
 
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-// import { HttpClient } from '@angular/common/http';
-// import { GlobalService } from './global.service';
-import { UserT} from '../models/userT';
+import { HttpClient } from '@angular/common/http';
+import { GlobalService } from './global.service';
+import { UserT } from '../models/userT';
+import { Response } from './../models/response';
 
 let counter = 0;
 
+
 @Injectable()
 export class UserService {
-
-  data: UserT[] = [
-    new UserT('dev', 'Orlando', 'Pérez', 'operezs1990@gmail.com'),
-    new UserT('dev', 'Oscar', 'Pérez', 'operezs1990@gmail.com'),
-    new UserT('dev', 'Eva Moor', 'Pérez', 'operezs1990@gmail.com'),
-    new UserT('dev', 'Carlos', 'Pérez', 'operezs1990@gmail.com'),
-  ];
-
-  getUsersT(): Observable<UserT[]> {
-    return observableOf(this.data);
-  }
-
-  createUserT(user: UserT): Observable<UserT[]> {
-    /*
-    let newProject: any[] = [];
-    newProject = [project._id, project.projectName,
-                  project.estimatedDuration, project.spentTime,
-                  project.userAsig,
-                  project.description]; */
-
-    this.data.push(user);
-    return observableOf(this.data);
-  }
-
-  updateUserT(user: UserT): Observable<any> {
-    return observableOf(this.data);
-  }
-
-  deleteUserT(name: string): Observable<any> {
-    let index = -1;
-    for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i].userName === name) {
-        index = i;
-      }
-    }
-    if (index >= 0)
-      this.data.splice(index, 1);
-    return observableOf(this.data);
-  }
-
-
 // Dinamic data
-/* private baseUrl: string;
+ token: string;
+
+ private baseUrl: string;
 
   constructor(private http: HttpClient, private global: GlobalService) {
-    this.baseUrl = `${this.global.apiUrl()}api/usersets`;
+    this.baseUrl = `${this.global.apiUrl()}users`;
   }
 
   getUsersT() {
-    return this.http.get<UserT[]>(this.baseUrl);
+    return this.http.get<Response<UserT[]>>(this.baseUrl);
   }
 
   getUserT(id: string) {
-    return this.http.get<UserT>(`${this.baseUrl}/${id}`);
+    return this.http.get<Response<UserT>>(`${this.baseUrl}/${id}`);
   }
 
   createUserT(userT: UserT) {
@@ -73,13 +38,22 @@ export class UserService {
   }
 
   updateUserT(userT: UserT) {
-    return this.http.put(`${this.baseUrl}/${userT._id}`, userT);
+    return this.http.put(`${this.baseUrl}/${userT.id}`, userT);
   }
 
   deleteUserT(id: string) {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
- */
+
+  getDecodedAccessToken(): any {
+    this.token = JSON.parse(localStorage.getItem('auth_app_token')).value;
+    try {
+        return jwt_decode(this.token);
+    } catch (Error) {
+        return null;
+    }
+  }
+
 
 
   // The Theme Default-------------------------------------------------------
@@ -121,3 +95,35 @@ export class UserService {
     return Object.values(this.users);
   }
 }
+/*   data: UserT[] = [
+    new UserT( 'Orlando', 'Pérez', 'operezs1990@gmail.com'),
+    new UserT( 'Oscar', 'Pérez', 'operezs1990@gmail.com'),
+    new UserT( 'Eva Moor', 'Pérez', 'operezs1990@gmail.com'),
+    new UserT( 'Carlos', 'Pérez', 'operezs1990@gmail.com'),
+  ];
+
+  getUsersT(): Observable<UserT[]> {
+    return observableOf(this.data);
+  }
+
+  createUserT(user: UserT): Observable<UserT[]> {
+    this.data.push(user);
+    return observableOf(this.data);
+  }
+
+  updateUserT(user: UserT): Observable<any> {
+    return observableOf(this.data);
+  }
+
+  deleteUserT(name: string): Observable<any> {
+    let index = -1;
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].userName === name) {
+        index = i;
+      }
+    }
+    if (index >= 0)
+      this.data.splice(index, 1);
+    return observableOf(this.data);
+  }
+ */

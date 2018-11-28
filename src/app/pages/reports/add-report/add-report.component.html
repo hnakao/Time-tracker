@@ -7,27 +7,47 @@
 <div class="modal-body">
   <form (ngSubmit)="onSubmit()" #addReportForm="ngForm">
     <div class = "row">
-      <div class=" col-md-6 form-group">
-        <label for="nameDev">User Name</label>
-        <div class = "container">
-          <input type="text" class="form-control" id="nameDev" name="nameDev" [(ngModel)]="report.userName">
-        </div>
-      </div>
+        <div class="col-md-6 form-group">
+            <label for="userName">User Name</label>
+            <div class="form-group">
+                <ng-multiselect-dropdown
+                        class="form-control"
+                        [placeholder]="'Select User'"
+                        [data]="dropdownUserList"
+                        [(ngModel)]="userAssignedItems"
+                        name="userAssignedItems"
+                        [settings]="dropdownUserSettings"
+                        (onSelect)="onItemSelectUser($event)">        
+                </ng-multiselect-dropdown>
+     
+            </div>
+          </div>
       <div class="col-md-6 form-group">
         <label for="projectName">Project Name</label>
-        <div class = "container">
-          <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="report.projectName">
+        <div class="form-group">
+            <ng-multiselect-dropdown
+                    class="form-control"
+                    [placeholder]="'Select Project'"
+                    [data]="dropdownList"
+                    [(ngModel)]="projectAssignedItems"
+                    name="projectAssignedItems"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)">        
+            </ng-multiselect-dropdown>
+ 
         </div>
       </div>
     </div>
     <div class = "row">
       <div class=" col-md-4 form-group">
-        <label for="timeWork">Time Work:</label>
-        <div class = "container"><input type="number" class="form-control" id="timeWork" name="timeWork" [(ngModel)]="report.timeWork"></div>
+        <label for="time">Time Work:</label>
+        <div class = "container">
+          <input type="number" class="form-control" id="time" name="time" [(ngModel)]="report.time">
+        </div>
       </div>
       <div class=" col-md-8 form-group">
           <label for="timeWork">Progress:</label>
-          <div class = "container"><input type="number" class="form-control" id="timeWork" name="timeWork" [(ngModel)]="report.timeWork"></div>
+          <div class = "container"><input type="number" class="form-control" id="timeWork" name="timeWork" [(ngModel)]="report.time"></div>
         </div>
     </div>
     <div class="form-group">

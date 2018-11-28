@@ -1,18 +1,18 @@
 import { UserT } from './userT';
 export class Project {
-    _id: number;
+    id: string;
     projectName: string;
     estimatedDuration: number;
-    spentTime: number;
-    userAsig: UserT[];
+    currentSpentTime: number;
+    usersId: string[];
     description: string;
 
     constructor(projectName: string, estimatedDuration: number,
-        description: string, spentTime: number = 0, userAsig: UserT[] = []) {
+        description: string, spentTime: number = 0, usersId: string[] = []) {
         this.projectName = projectName;
         this.estimatedDuration = estimatedDuration;
-        this.spentTime = spentTime;
-        this.userAsig = userAsig;
+        this.currentSpentTime = spentTime;
+        this.usersId = usersId;
         this.description = description;
     }
 }

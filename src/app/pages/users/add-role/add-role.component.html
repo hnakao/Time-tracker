@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <span>{{titleForm}}</span>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()" #addRoleForm="ngForm">
+    <div class = "row">
+      <div class=" col-md-6 form-group">
+        <label for="roleName">Role Name:</label>
+        <div class = "container">
+          <input type="text" class="form-control" id="roleName" name="roleName" [(ngModel)]="role.roleName">
+        </div>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label for="workMode">Work Mode:</label>
+          <div class = "container">
+            <input type="text" class="form-control" id="workMode" name="workMode" [(ngModel)]="role.workMode">
+          </div>
+      </div>
+    </div>
+
+    <label for="payModeStructure">Pay mode structure:</label>
+    <div class = "row">
+      <div class=" col-md-3 form-group">
+        <label for="basicSalary">Salary:</label>
+        <div class = "container"><input type="number" class="form-control" id="basicSalary" name="basicSalary" [(ngModel)]="role.basicSalary"></div>
+      </div>
+      <div class=" col-md-3 form-group">
+        <label for="payHoursWork">Pay Hours:</label>
+        <div class = "container"><input placeholder="H/Work" type="number" class="form-control" id="payHoursWork" name="payHoursWork" [(ngModel)]="payHoursWork"></div>
+      </div>
+      <div class=" col-md-3 form-group">
+        <label for="extraHours">Extra Hours:</label>
+        <div class = "container"><input type="number" class="form-control" id="payHoursWork" name="payHoursWork" [(ngModel)]="payHoursWork"></div>
+      </div>
+      <div class=" col-md-3 form-group">
+          <label for="payHoursWork">Pay Extra:</label>
+          <div class = "container"><input placeholder="H/Work" type="number" class="form-control" id="payHoursWork" name="payHoursWork" [(ngModel)]="payHoursWork"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <div class = "container"><textarea type="text" class="form-control" id="description" name="description" [(ngModel)]="role.description"></textarea></div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-md btn-primary" [disabled]="!addRoleForm.valid">Save changes</button>
+    </div>
+    <!--button type="submit" class="btn btn-danger">Submit</button-->
+  </form>
+</div>

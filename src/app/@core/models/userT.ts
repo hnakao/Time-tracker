@@ -1,14 +1,22 @@
+
 export class UserT {
-    _id: number;
-    rol: string;
-    userName: string;
+    id: string;
+    firstName: string;
     lastName: string;
     email: string;
+    password: string;
+    roleId: string;
+    // --quit
+    isDeleted: number;
 
-    constructor(rol: string, userName: string, lastName: string, email: string ) {
-        this.rol = rol;
-        this.userName = userName;
+    constructor( userName: string, lastName: string, email: string,
+                password?: string, roleId?: string ) {
+        this.firstName = userName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.roleId = roleId;
+        this.isDeleted = 0;
     }
 }
+

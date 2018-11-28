@@ -2,11 +2,16 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
+
+
 import { UserActionsComponent } from '../user-actions.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 
 import { UserService } from '../../../@core/data/users.service';
 import { UserT } from '../../../@core/models/userT';
+import { Response } from './../../../@core/models/response';
+import { UserRoleService } from '../../../@core/data/user-role.service';
+import { Role } from '../../../@core/models/role';
 
 @Component({
   selector: 'ngx-user-list',
@@ -18,32 +23,77 @@ import { UserT } from '../../../@core/models/userT';
   `],
 })
 export class UserListComponent implements OnInit {
+
+  private roles: Role[];
+
   settings = {
     hideSubHeader: true,
     actions: false,
 
     columns: {
-      userName: {
+      firstName: {
         title: 'Name',
         type: 'string',
-        filter: false,
+        filter: true,
       },
       lastName: {
         title: 'Last Name',
         type: 'string',
-        filter: false,
+        filter: true,
       },
-      rol: {
-        title: 'Rol',
-        type: 'string',
+/*       roleId: {
+        title: 'Role',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          if (value) {
+            let roleName: string;
+            this.roleService.getRole(value).subscribe((role: Response<Role>) => {
+               console.log(role.data.roleName);
+               roleName = role.data.roleName;
+               return `<div class = "row">
+                          <div class = "container">
+                            ${roleName}
+                          </div>
+                        </div>`;
+              });
+            } else {
+                return `<div class = "row">
+                          <div class = "container">
+                             No Role Assigned
+                          </div>
+                        </div>`;
+            }
+          },
         filter: false,
+      }, */
+      roleId: {
+        title: 'Role',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          if (value) {
+              for (const role of this.roles) {
+                if (role.id === value)
+                  return `<div class = "row">
+                            <div class = "container">
+                              ${role.roleName}
+                            </div>
+                          </div>`;
+              }
+          }
+              return `<div class = "row">
+                        <div class = "container">
+                          No Role Assigned
+                        </div>
+                      </div>`;
+          },
+        filter: true,
       },
       email: {
         title: 'e-Mail',
         type: 'string',
-        filter: false,
+        filter: true,
       },
-      _id: {
+      id: {
         title: 'Actions',
         type: 'custom',
         filter: false,
@@ -54,9 +104,8 @@ export class UserListComponent implements OnInit {
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
-              this.service.deleteUserT(row.userName).subscribe( data => {
-                this.source.load(data);
-
+               this.service.deleteUserT(row.id).subscribe( data => {
+                this.getTableData();
               });
             }
           });
@@ -69,11 +118,13 @@ export class UserListComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   @Output() usertSelected = new EventEmitter();
 
+
   constructor(private service: UserService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private roleService: UserRoleService) { }
 
   openAddUserModal() {
-    const modal: NgbModalRef = this.modalService.open(AddUserComponent, { size: 'lg', container: 'nb-layout' });
+    const modal: NgbModalRef = this.modalService.open(AddUserComponent, { size: 'sm', container: 'nb-layout' });
     (<AddUserComponent>modal.componentInstance).titleForm = 'New User';
     (<AddUserComponent>modal.componentInstance).save.subscribe(data => {
      this.getTableData();
@@ -81,7 +132,7 @@ export class UserListComponent implements OnInit {
   }
 
   editUser(user) {
-    const modal: NgbModalRef = this.modalService.open(AddUserComponent, { size: 'lg', container: 'nb-layout' });
+    const modal: NgbModalRef = this.modalService.open(AddUserComponent, { size: 'sm', container: 'nb-layout' });
     (<AddUserComponent>modal.componentInstance).user = user;
     (<AddUserComponent>modal.componentInstance).titleForm = 'Edit User';
     (<AddUserComponent>modal.componentInstance).save.subscribe(data => {
@@ -90,13 +141,23 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.roleService.getRoles().subscribe((roles: Response<Role[]>) => {
+        this.roles = roles.data;
+    });
     this.getTableData();
   }
 
   getTableData() {
     this.service.getUsersT()
-    .subscribe((data: UserT[]) => {
-      this.source.load(data);
+    .subscribe((users: Response<UserT[]>) => {
+      // quit--
+      const user2: UserT[] = [];
+      for (const user of users.data) {
+        if (!user.isDeleted)
+        user2.push(user);
+      }
+      // ---
+      this.source.load(user2);
     });
   }
 

@@ -8,6 +8,11 @@ import { ReportInfoComponent } from './../report-info/report-info.component';
 
 import { ReportService } from '../../../@core/data/report.service';
 import { Report } from '../../../@core/models/report';
+import { Response } from '../../../@core/models/response';
+import { ProjectService } from '../../../@core/data/project.service';
+import { Project } from '../../../@core/models/project';
+import { UserService } from '../../../@core/data/users.service';
+import { UserT } from '../../../@core/models/userT';
 
 @Component({
   selector: 'ngx-report-list',
@@ -20,27 +25,75 @@ import { Report } from '../../../@core/models/report';
   `],
 })
 export class ReportListComponent implements OnInit {
+
+  private project: Project[];
+  userList: UserT[];
+
   settings = {
     hideSubHeader: true,
     actions: false,
 
     columns: {
-      userName: {
+      userId: {
         title: 'Developer Name',
-        type: 'string',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          if (value) {
+              for (const user of this.userList) {
+                if (user.id === value)
+                  return `<div class = "row">
+                            <div class = "container">
+                              ${user.firstName}
+                            </div>
+                          </div>`;
+              }
+          }
+        },
         filter: false,
       },
-      projectName: {
+     /*  projectId: {
         title: 'Project Name',
-        type: 'string',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          this.projectService.getProject(value).subscribe((project: Response<Project>) => {
+             return `<div class = "row">
+                        <div class = "container">
+                          ${project.data.projectName}
+                        </div>
+                      </div>`;
+            });
+          },
         filter: false,
+      }, */
+      projectId: {
+        title: 'Project',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          if (value) {
+              for (const proj of this.project) {
+                if (proj.id === value)
+                  return `<div class = "row">
+                            <div class = "container">
+                              ${proj.projectName}
+                            </div>
+                          </div>`;
+              }
+          }
+              return `<div class = "row">
+                        <div class = "container">
+                          No Project Assigned
+                        </div>
+                      </div>`;
+          },
+        filter: true,
       },
-      timeWork: {
+      time: {
         title: 'Time Work',
         type: 'number',
         filter: false,
       },
-      _id: {
+      id: {
+        title: 'Actions',
         type: 'custom',
         filter: false,
         renderComponent: ReportActionsComponent,
@@ -50,8 +103,8 @@ export class ReportListComponent implements OnInit {
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
-              this.service.deleteReport(row.userName).subscribe( data => {
-                this.source.load(data);
+              this.service.deleteReport(row.id).subscribe( data => {
+                this.getTableData();
               });
             }
           });
@@ -68,7 +121,9 @@ export class ReportListComponent implements OnInit {
   @Output() reportSelected = new EventEmitter();
 
   constructor(private service: ReportService,
-    private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private projectService: ProjectService,
+              private userService: UserService) { }
 
   openAddReportModal() {
     const modal: NgbModalRef = this.modalService.open(AddReportComponent, { size: 'lg', container: 'nb-layout' });
@@ -93,13 +148,19 @@ export class ReportListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
+      this.userList = users.data;
+     });
+    this.projectService.getProjects().subscribe((project: Response<Project[]>) => {
+      this.project = project.data;
+     });
     this.getTableData();
   }
 
   getTableData() {
     this.service.getReports()
-    .subscribe((data: Report[]) => {
-      this.source.load(data);
+    .subscribe((reports: Response<Report[]>) => {
+      this.source.load(reports.data);
     });
   }
 

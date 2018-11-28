@@ -9,6 +9,9 @@ import { ProjectService } from '../../../@core/data/project.service';
 import { AddProjectComponent } from '../add-project/add-project.component';
 import { ProjectInfoComponent } from './../project-info/project-info.component';
 import { Project } from '../../../@core/models/project';
+import { Response } from '../../../@core/models/response';
+import { UserService } from '../../../@core/data/users.service';
+import { UserT } from '../../../@core/models/userT';
 
 @Component({
   selector: 'ngx-project-list',
@@ -21,7 +24,7 @@ import { Project } from '../../../@core/models/project';
 })
 export class ProjectListComponent implements OnInit {
 
-
+  usersList: UserT[];
   settings = {
     hideSubHeader: true,
     actions: false,
@@ -45,32 +48,44 @@ export class ProjectListComponent implements OnInit {
         type: 'number',
         filter: false,
       },
-      spentTime: {
+      currentSpentTimet: {
         title: 'Spent Time',
         type: 'number',
         filter: false,
       },
-      userAsig: {
+      usersId: {
         title: 'Users Assigned',
         type: 'html',
         valuePrepareFunction: (value) => {
           let chip: string = ``;
-          if (value.length > 0) {
-            for (let i = 0; i < value.length; i++) {
-              chip =  `${chip}
+          let userName: string;
+          if (value) {
+            for (const user of this.usersList) {
+              for (let i = 0; i < value.length; i++)
+                  if (user.id === value[i]) {
+                    value.splice(i);
+                    userName = user.firstName;
+                    chip =  `${chip}
                         <div class = "row">
                           <div class = "container">
-                          ${value[i].userName}
+                          ${userName}
                           </div>
                         </div>
                       `;
-            }
+                  }
+              }
             return chip;
-           }
+            } else {
+            return `<div class = "row">
+                      <div class = "container">
+                        No User Assigned
+                      </div>
+                    </div>`;
+            }
         },
         filter: true,
       },
-      _id: {
+      id: {
         title: 'Actions',
         type: 'custom',
         filter: false,
@@ -81,8 +96,8 @@ export class ProjectListComponent implements OnInit {
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
-              this.service.deleteProject(row.projectName).subscribe(data => {
-                this.source.load(data);
+              this.service.deleteProject(row.id).subscribe(data => {
+                this.getTableData();
               });
             }
           });
@@ -99,7 +114,8 @@ export class ProjectListComponent implements OnInit {
   @Output() projectSelected = new EventEmitter();
 
   constructor(private service: ProjectService,
-    private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private userService: UserService) {
   }
 
   openAddProjectModal() {
@@ -125,13 +141,16 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
+      this.usersList = users.data;
+  });
     this.getTableData();
   }
 
+
   getTableData() {
-    this.service.getProjects()
-      .subscribe((data: Project[]) => {
-        this.source.load(data);
+    this.service.getProjects().subscribe((projects: Response<Project[]>) => {
+        this.source.load(projects.data);
       });
   }
 

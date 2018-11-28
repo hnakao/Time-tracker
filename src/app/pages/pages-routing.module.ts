@@ -12,6 +12,9 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { StickerComponent } from './sticker/sticker/sticker.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { ReportListComponent } from './reports/report-list/report-list.component';
+import { UserRoleComponent } from './users/user-role/user-role.component';
+
+
 
 const routes: Routes = [{
   path: '',
@@ -22,6 +25,9 @@ const routes: Routes = [{
   }, {
     path: 'users',
     component: UserListComponent,
+  }, {
+    path: 'users/user-role',
+    component: UserRoleComponent,
   }, {
     path: 'reports',
     component: ReportListComponent,
@@ -71,7 +77,7 @@ const routes: Routes = [{
   */
   {
     path: '',
-    redirectTo: 'stickers',
+    redirectTo: 'users',
     pathMatch: 'full',
   }],
 }];

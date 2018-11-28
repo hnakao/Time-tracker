@@ -4,15 +4,44 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-// import { HttpClient } from '@angular/common/http';
-// import { GlobalService } from './global.service';
+import { HttpClient } from '@angular/common/http';
+import { GlobalService } from './global.service';
 
 import { Report} from '../models/report';
+import { Response } from '../models/response';
 
 @Injectable()
 
 export class ReportService {
 
+  // Dinamic data
+ private baseUrl: string;
+
+  constructor(private http: HttpClient, private global: GlobalService) {
+    this.baseUrl = `${this.global.apiUrl()}reports`;
+  }
+
+  getReports() {
+    return this.http.get<Response<Report[]>>(this.baseUrl);
+  }
+
+  getReport(id: string) {
+    return this.http.get<Response<Report>>(`${this.baseUrl}/${id}`);
+  }
+
+  createReport(report: Report) {
+    return this.http.post(this.baseUrl, report);
+  }
+
+  updateReport(report: Report) {
+    return this.http.put(`${this.baseUrl}/${report.id}`, report);
+  }
+
+  deleteReport(id: string) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
+/*
   data: Report[] = [
     new Report('Nick Jones', 'Cognoware', 150,
                'Lorem ipsum dolor, sit amet consectetur adipisicing elit.'),
@@ -49,34 +78,8 @@ export class ReportService {
     return observableOf(this.data);
   }
 
+ */
 
-
-// Dinamic data
-/* private baseUrl: string;
-
-  constructor(private http: HttpClient, private global: GlobalService) {
-    this.baseUrl = `${this.global.apiUrl()}api/reportsets`;
-  }
-
-  getReports() {
-    return this.http.get<Report[]>(this.baseUrl);
-  }
-
-  getReport(id: string) {
-    return this.http.get<Report>(`${this.baseUrl}/${id}`);
-  }
-
-  createReport(report: Report) {
-    return this.http.post(this.baseUrl, report);
-  }
-
-  updateReport(report: Report) {
-    return this.http.put(`${this.baseUrl}/${report._id}`, report);
-  }
-
-  deleteReport(id: string) {
-    return this.http.delete(`${this.baseUrl}/${id}`);
-  } */
 
 
 }
