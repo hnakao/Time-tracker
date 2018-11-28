@@ -95,8 +95,7 @@ export class AddUserComponent implements OnInit {
     this.save.emit();
   }
 
-    
-// MultiSelect
+  // MultiSelect
   onItemSelect(item: any) {
     // this.roleAssignedItems.push(item);
   }

@@ -1,4 +1,3 @@
-import { UserT } from './userT';
 export class Project {
     id: string;
     projectName: string;

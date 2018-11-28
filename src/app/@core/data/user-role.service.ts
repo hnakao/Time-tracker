@@ -1,4 +1,4 @@
-import { of as observableOf,  Observable } from 'rxjs';
+
 import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/map';
