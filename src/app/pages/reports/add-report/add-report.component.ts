@@ -80,7 +80,12 @@ export class AddReportComponent implements OnInit {
       });
 
       this.userService.getUsers().subscribe((users: Response<User[]>) => {
-        this.dropdownUserList = users.data;
+        const user2: User[] = [];
+        for (const user of users.data) {
+            if (!user.isDeleted)
+            user2.push(user);
+            }
+        this.dropdownUserList = user2;
         if (this.report.userId)
            this.userService.getUser(this.report.userId).subscribe((user: Response<User>) => {
                this.userAssignedItems = [user.data];

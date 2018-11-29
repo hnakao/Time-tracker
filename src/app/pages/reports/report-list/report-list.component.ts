@@ -142,12 +142,17 @@ export class ReportListComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers().subscribe((users: Response<User[]>) => {
-      this.userList = users.data;
+      const user2: User[] = [];
+      for (const user of users.data) {
+        if (!user.isDeleted)
+            user2.push(user);
+      }
+      this.userList = user2;
+      this.projectService.getProjects().subscribe((project: Response<Project[]>) => {
+           this.project = project.data;
+           this.getTableData();
      });
-    this.projectService.getProjects().subscribe((project: Response<Project[]>) => {
-      this.project = project.data;
-     });
-    this.getTableData();
+    });
   }
 
   getTableData() {
