@@ -8,7 +8,6 @@ import { ThemeModule } from '../@theme/theme.module';
 //  import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { UsersModule } from './users/users.module';
 import { MediaModule } from './media/media.module';
-import { StickerModule } from './sticker/sticker.module';
 import { ReportsModule } from './reports/reports.module';
 import { ProjectsModule } from './projects/projects.module';
 
@@ -25,7 +24,6 @@ const PAGES_COMPONENTS = [
   //  DashboardModule,
   //  ECommerceModule,
   //  MiscellaneousModule,
-    StickerModule,
     ReportsModule,
     ProjectsModule,
   ],

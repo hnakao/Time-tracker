@@ -44,12 +44,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/e-dashboard',
   },
   {
-    title: 'Stickers',
-    icon: 'nb-lightbulb',
-    link: '/pages/stickers',
-    home: true,
-  },
-  {
     title: 'Media Content',
     icon: 'nb-play-outline',
     link: '/pages/media',

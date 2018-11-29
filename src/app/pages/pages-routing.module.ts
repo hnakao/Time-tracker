@@ -9,7 +9,6 @@ import { PagesComponent } from './pages.component';
 // import { MediaListComponent } from './media/media-list/media-list.component';
 
 import { UserListComponent } from './users/user-list/user-list.component';
-import { StickerComponent } from './sticker/sticker/sticker.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { ReportListComponent } from './reports/report-list/report-list.component';
 import { UserRoleComponent } from './users/user-role/user-role.component';
@@ -20,9 +19,6 @@ const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [{
-    path: 'stickers',
-    component: StickerComponent,
-  }, {
     path: 'users',
     component: UserListComponent,
   }, {

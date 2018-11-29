@@ -46,7 +46,6 @@ export const NB_CORE_PROVIDERS = [
           class: NbAuthJWTToken,
           key: 'data.token', // this parameter tells where to look for the token
         },
-        // baseEndpoint: 'http://popmii.theslappening.com/', // TODO: coger de global service
         baseEndpoint: 'http://localhost:4000/api/v1/', // TODO: coger de global service
         login: {
           alwaysFail: false,
