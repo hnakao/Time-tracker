@@ -16,7 +16,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   breakpoints: any;
   themeSubscription: any;
 
-  constructor(private userService: UserService,
+  constructor(// private userService: UserService,
               private themeService: NbThemeService,
               private breakpointService: NbMediaBreakpointsService) {
 

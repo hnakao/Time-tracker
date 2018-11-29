@@ -69,7 +69,6 @@ export class AddProjectComponent implements OnInit {
                  this.userAssignedItems = [user.data];
                });
               }
-            console.log(this.userAssignedItems);
             }
         });
 
@@ -81,7 +80,6 @@ export class AddProjectComponent implements OnInit {
   if (this.userAssignedItems.length !== 0) {
      for (let i = 0; i < this.userAssignedItems.length; i++) {
          this.project.users.push( this.userAssignedItems[i].id );
-         console.log(this.userAssignedItems);
         }
     }
  }

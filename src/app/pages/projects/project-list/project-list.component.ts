@@ -12,7 +12,6 @@ import { Project } from '../../../@core/models/project';
 import { Response } from '../../../@core/models/response';
 import { UserService } from '../../../@core/data/users.service';
 import { User } from '../../../@core/models/user';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-project-list',
@@ -51,8 +50,7 @@ export class ProjectListComponent implements OnInit {
         valuePrepareFunction: (value) => {
           let chip: string = ``;
           let userName: string;
-          console.log(value);
-          if (value && this.usersList) {
+          if (value  && this.usersList) {
             for (const user of this.usersList) {
               for (let i = 0; i < value.length; i++)
                   if (user.id === value[i]) {
