@@ -97,7 +97,6 @@ export class AddProjectComponent implements OnInit {
       this.onSave();
     });
   }
-  console.log(this.project);
 }
 
   onSave() {
