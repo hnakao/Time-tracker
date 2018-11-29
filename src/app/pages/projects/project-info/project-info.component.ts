@@ -23,8 +23,6 @@ export class ProjectInfoComponent implements OnInit {
   ngOnInit() {
     this.progresPercent();
     if (this.project.usersId) {
-        console.log('no vacio');
-        
        this.userAsigned = true;
     }
   }
