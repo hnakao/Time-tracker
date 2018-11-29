@@ -25,6 +25,8 @@ import { User } from '../../../@core/models/user';
 export class ProjectListComponent implements OnInit {
 
   usersList: User[];
+  userAsigned = false;
+
   settings = {
     hideSubHeader: true,
     actions: false,
@@ -50,11 +52,10 @@ export class ProjectListComponent implements OnInit {
         valuePrepareFunction: (value) => {
           let chip: string = ``;
           let userName: string;
-          if (value  && this.usersList) {
+          if (value) {
             for (const user of this.usersList) {
-              for (let i = 0; i < value.length; i++)
-                  if (user.id === value[i]) {
-                    value.splice(i);
+              for (const val of value) {
+                  if (user.id === val.id) {
                     userName = user.firstName;
                     chip =  `${chip}
                         <div class = "row">
@@ -64,7 +65,9 @@ export class ProjectListComponent implements OnInit {
                         </div>
                       `;
                   }
+                }
               }
+
             return chip;
             } else {
             return `<div class = "row">
@@ -120,6 +123,7 @@ export class ProjectListComponent implements OnInit {
   editProject(project) {
     const modal: NgbModalRef = this.modalService.open(AddProjectComponent, { size: 'lg', container: 'nb-layout' });
     (<AddProjectComponent>modal.componentInstance).project = project;
+    (<AddProjectComponent>modal.componentInstance).usersId = project.users;
     (<AddProjectComponent>modal.componentInstance).titleForm = 'Edit Project';
     (<AddProjectComponent>modal.componentInstance).save.subscribe(data => {
       this.getTableData();
@@ -139,8 +143,8 @@ export class ProjectListComponent implements OnInit {
         users2.push(user);
       }
       this.usersList = users2;
+      this.getTableData();
   });
-    this.getTableData();
   }
 
 

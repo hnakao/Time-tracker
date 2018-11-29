@@ -21,6 +21,7 @@ export class AddProjectComponent implements OnInit {
 
 
   project: Project;
+  usersId: string[];
   titleForm: string;
 
   userAssignedItems = [];
@@ -57,29 +58,28 @@ export class AddProjectComponent implements OnInit {
 
   getItemsDropdown() {
       this.userService.getUsers().subscribe((users: Response<User[]>) => {
-        const user2: User[] = [];
+        const userDrop: User[] = [];
+        const userAssigned: User[] = [];
         for (const user of users.data) {
-          if (!user.isDeleted)
-            user2.push(user);
-          }
-        this.dropdownList = user2;
-        if (this.project.users) {
-           for (const userId of this.project.users) {
-               this.userService.getUser(userId).subscribe((user: Response<User>) => {
-                 this.userAssignedItems = [user.data];
-               });
-              }
+          if (!user.isDeleted) {
+            userDrop.push(user);
+            for (let i = 0; i < this.usersId.length; i++) {
+                if (user.id === this.usersId[i]) {
+                  userAssigned.push(user);
+                  }
+                }
             }
+          }
+        this.userAssignedItems = userAssigned;
+        this.dropdownList = userDrop;
         });
-
-
   }
 
  userAssignedMultiSelect() {
-  this.project.users = [];
+  this.project.usersId = [];
   if (this.userAssignedItems.length !== 0) {
      for (let i = 0; i < this.userAssignedItems.length; i++) {
-         this.project.users.push( this.userAssignedItems[i].id );
+         this.project.usersId.push( this.userAssignedItems[i].id );
         }
     }
  }

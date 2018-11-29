@@ -14,6 +14,7 @@ import { Project } from '../../../@core/models/project';
 export class ProjectInfoComponent implements OnInit {
 
   project: Project;
+  userAsigned = false;
   titleForm: string;
   percent: number;
 
@@ -21,6 +22,11 @@ export class ProjectInfoComponent implements OnInit {
 
   ngOnInit() {
     this.progresPercent();
+    if (this.project.usersId) {
+        console.log('no vacio');
+        
+       this.userAsigned = true;
+    }
   }
 
   closeModal() {

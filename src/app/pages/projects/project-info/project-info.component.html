@@ -41,8 +41,8 @@
     
     <div>
       <label><strong>User(s) Asigned:</strong> </label>
-      <div *ngIf="project.users .length !== 0; else noUser" >
-        <div class = "container col row" *ngFor="let user of project.users; let i = index;" >
+      <div *ngIf="userAsigned === true; else noUser" >
+        <div class = "container col row" *ngFor="let user of project.usersId; let i = index;" >
           <div class = "col-md-4">
             <h6>TODO: User list</h6>
           </div>
