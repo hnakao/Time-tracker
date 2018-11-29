@@ -12,7 +12,7 @@ import { UserRoleService } from './../../../@core/data/user-role.service';
 })
 export class AddRoleComponent implements OnInit {
 
-  basicSalary = 0;
+ // basicSalary = 0;
   payHoursWork = 0;
   extraHours = 0;
   payExtraHours = 0;
@@ -39,7 +39,7 @@ export class AddRoleComponent implements OnInit {
   }
 
   onSubmit() {
-    this.role.basicSalary = this.basicSalary;
+  //  this.role.basicSalary = this.basicSalary;
     this.role.extraHours = this.extraHours;
     this.role.payExtraHours = this.payExtraHours;
     if (this.role.id) {
