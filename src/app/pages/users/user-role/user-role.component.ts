@@ -44,7 +44,22 @@ export class UserRoleComponent implements OnInit {
       },
       extraHours: {
         title: 'Extra Hours',
-        type: 'string',
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          if (value) {
+                  return `<div class = "row">
+                            <div class = "container">
+                              Yes
+                            </div>
+                          </div>`;
+            } else {
+                  return `<div class = "row">
+                            <div class = "container">
+                              No
+                            </div>
+                          </div>`;
+                   }
+          },
         filter: false,
       },
       id: {

@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Role } from '../../../@core/models/role';
-import { UserT } from '../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
 import { UserService } from '../../../@core/data/users.service';
 import { UserRoleService } from './../../../@core/data/user-role.service';
 import { Response } from '../../../@core/models/response';
@@ -16,7 +16,7 @@ import { Response } from '../../../@core/models/response';
 export class AddUserComponent implements OnInit {
 
 
-  user: UserT;
+  user: User;
   titleForm: string;
   checkPassword: string;
   password: string;
@@ -41,7 +41,7 @@ export class AddUserComponent implements OnInit {
               private userService: UserService,
               private userRoleService: UserRoleService) {
     if (!this.user) {
-      this.user = new UserT('', '', '');
+      this.user = new User('', '', '');
     }
   }
 
@@ -76,7 +76,7 @@ export class AddUserComponent implements OnInit {
   onSubmit() {
     this.roleAssignedMultiSelect();
     if (this.user.id) {
-      this.userService.updateUserT(this.user).subscribe( data => {
+      this.userService.updateUser(this.user).subscribe( data => {
         this.closeModal();
         this.onSave();
       });
@@ -84,7 +84,7 @@ export class AddUserComponent implements OnInit {
       // --no
       this.user.isDeleted = 0;
       // --
-      this.userService.createUserT(this.user).subscribe( data => {
+      this.userService.createUser(this.user).subscribe( data => {
         this.closeModal();
         this.onSave();
       });

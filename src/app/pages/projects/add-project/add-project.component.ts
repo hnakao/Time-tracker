@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from '../../../@core/models/project';
 import { ProjectService } from '../../../@core/data/project.service';
 
-import { UserT } from './../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
 import { UserService } from './../../../@core/data/users.service';
 import { Response } from '../../../@core/models/response';
 
@@ -55,42 +55,35 @@ export class AddProjectComponent implements OnInit {
     this.activeModal.close();
   }
 
-
-/*   getItemsDropdown() {
-    this.userRoleService.getRoles().subscribe((roles: Response<Role[]>) => {
-        this.dropdownList = roles.data;
-        if (this.user.roleId)
-          this.userRoleService.getRole(this.user.roleId).subscribe((role: Response<Role>) => {
-            this.roleAssignedItems = [role.data];
-          });
-    });
-
-  } */
-
   getItemsDropdown() {
-      this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
-        const user2: UserT[] = [];
+      this.userService.getUsers().subscribe((users: Response<User[]>) => {
+        const user2: User[] = [];
         for (const user of users.data) {
           if (!user.isDeleted)
             user2.push(user);
           }
         this.dropdownList = user2;
+        if (this.project.users) {
+           for (const userId of this.project.users) {
+               this.userService.getUser(userId).subscribe((user: Response<User>) => {
+                 this.userAssignedItems = [user.data];
+               });
+              }
+            console.log(this.userAssignedItems);
+            }
+        });
 
-/*         for (let i = 0; i < this.dropdownList.length; i++) {
-          for (let j = 0; j < this.project.usersId.length; j++) {
-              if (this.dropdownList[i].id === this.project.usersId[j])
-                  this.userAssignedItems.push(this.dropdownList[i]);
-          }
-        } */
-      });
 
   }
 
  userAssignedMultiSelect() {
-  this.project.usersId = [];
-  for (let i = 0; i < this.userAssignedItems.length; i++) {
-      this.project.usersId.push( this.userAssignedItems[i].id );
-  }
+  this.project.users = [];
+  if (this.userAssignedItems.length !== 0) {
+     for (let i = 0; i < this.userAssignedItems.length; i++) {
+         this.project.users.push( this.userAssignedItems[i].id );
+         console.log(this.userAssignedItems);
+        }
+    }
  }
 
  onSubmit() {
@@ -106,6 +99,7 @@ export class AddProjectComponent implements OnInit {
       this.onSave();
     });
   }
+  console.log(this.project);
 }
 
   onSave() {

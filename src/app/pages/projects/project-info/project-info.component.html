@@ -22,14 +22,14 @@
       <div class = "col-md-3">
         <label><strong>Spent Time:</strong> </label>
         <div class = "container">
-          <h6>{{project.spentTime}}</h6>
+          <h6>{{project.currentSpentTime}}</h6>
         </div>
       </div>
       <div class = "col-md-6">
         <label><strong>Progress:</strong> </label>
         <div class = "container row">
           <div class="col-md-10 progress nopadding">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': 60 + '%'}"></div>
+            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': percent + '%'}"></div>
           </div>
           <div class = "col-md-2">
             <h6>{{percent | number:'1.0-0'}}%</h6>
@@ -41,10 +41,10 @@
     
     <div>
       <label><strong>User(s) Asigned:</strong> </label>
-      <div *ngIf="project.userAsig.length !== 0; else noUser" >
-        <div class = "container col row" *ngFor="let user of project.userAsig; let i = index;" >
+      <div *ngIf="project.users .length !== 0; else noUser" >
+        <div class = "container col row" *ngFor="let user of project.users; let i = index;" >
           <div class = "col-md-4">
-            <h6>{{user.userName}}</h6>
+            <h6>TODO: User list</h6>
           </div>
         </div>
       </div>

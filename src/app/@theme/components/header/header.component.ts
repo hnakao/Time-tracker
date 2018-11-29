@@ -5,6 +5,8 @@ import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { LayoutService } from '../../../@core/data/layout.service';
+import { Response } from '../../../@core/models/response';
+import { User } from '../../../@core/models/user';
 
 
 @Component({
@@ -18,6 +20,8 @@ export class HeaderComponent implements OnInit {
 
   user: any;
 
+  firstName: string;
+
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
@@ -29,11 +33,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.admin);
-
-      this.menuService.onItemClick().subscribe(( event ) => {
-        this.onItemSelection(event.item.title);
+    this.userService.getUsers().subscribe((users: Response<User[]>) => {
+         this.firstName = this.userService.getDecodedAccessToken().firstName;
+      });
+    this.menuService.onItemClick().subscribe(( event ) => {
+         this.onItemSelection(event.item.title);
       });
   }
 

@@ -5,7 +5,7 @@ import { UserService } from '../../../@core/data/users.service';
 import { ProjectService } from '../../../@core/data/project.service';
 import { Project } from '../../../@core/models/project';
 import { Response } from '../../../@core/models/response';
-import { UserT } from '../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
 
 
 @Component({
@@ -29,8 +29,8 @@ export class ReportInfoComponent implements OnInit {
         .subscribe((project: Response<Project>) => {
           this.projectName = project.data.projectName;
         });
-    this.userService.getUserT(this.report.userId)
-        .subscribe((user: Response<UserT>) => {
+    this.userService.getUser(this.report.userId)
+        .subscribe((user: Response<User>) => {
           this.userName = user.data.firstName;
         });
   }

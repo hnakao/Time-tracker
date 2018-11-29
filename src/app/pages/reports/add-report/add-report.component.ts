@@ -6,7 +6,7 @@ import { ReportService } from '../../../@core/data/report.service';
 import { ProjectService } from '../../../@core/data/project.service';
 import { Project } from '../../../@core/models/project';
 import { Response } from '../../../@core/models/response';
-import { UserT } from '../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
 import { UserService } from '../../../@core/data/users.service';
 
 
@@ -17,7 +17,7 @@ import { UserService } from '../../../@core/data/users.service';
 })
 export class AddReportComponent implements OnInit {
 
-  user: UserT;
+  user: User;
   report: Report;
   titleForm: string;
   projectList: Project[];
@@ -79,10 +79,10 @@ export class AddReportComponent implements OnInit {
            });
       });
 
-      this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
+      this.userService.getUsers().subscribe((users: Response<User[]>) => {
         this.dropdownUserList = users.data;
         if (this.report.userId)
-           this.userService.getUserT(this.report.userId).subscribe((user: Response<UserT>) => {
+           this.userService.getUser(this.report.userId).subscribe((user: Response<User>) => {
                this.userAssignedItems = [user.data];
         });
    });

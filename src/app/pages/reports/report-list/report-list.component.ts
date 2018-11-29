@@ -12,7 +12,7 @@ import { Response } from '../../../@core/models/response';
 import { ProjectService } from '../../../@core/data/project.service';
 import { Project } from '../../../@core/models/project';
 import { UserService } from '../../../@core/data/users.service';
-import { UserT } from '../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
 
 @Component({
   selector: 'ngx-report-list',
@@ -27,7 +27,7 @@ import { UserT } from '../../../@core/models/userT';
 export class ReportListComponent implements OnInit {
 
   private project: Project[];
-  userList: UserT[];
+  userList: User[];
 
   settings = {
     hideSubHeader: true,
@@ -38,7 +38,7 @@ export class ReportListComponent implements OnInit {
         title: 'Developer Name',
         type: 'html',
         valuePrepareFunction: (value) => {
-          if (value) {
+          if (value && this.userList) {
               for (const user of this.userList) {
                 if (user.id === value)
                   return `<div class = "row">
@@ -47,29 +47,22 @@ export class ReportListComponent implements OnInit {
                             </div>
                           </div>`;
               }
+          } else {
+                  return `<div class = "row">
+                                  <div class = "container">
+                                      No User
+                                  </div>
+                                </div>`;
+
           }
         },
         filter: false,
       },
-     /*  projectId: {
-        title: 'Project Name',
-        type: 'html',
-        valuePrepareFunction: (value) => {
-          this.projectService.getProject(value).subscribe((project: Response<Project>) => {
-             return `<div class = "row">
-                        <div class = "container">
-                          ${project.data.projectName}
-                        </div>
-                      </div>`;
-            });
-          },
-        filter: false,
-      }, */
       projectId: {
         title: 'Project',
         type: 'html',
         valuePrepareFunction: (value) => {
-          if (value) {
+          if (value && this.project) {
               for (const proj of this.project) {
                 if (proj.id === value)
                   return `<div class = "row">
@@ -148,7 +141,7 @@ export class ReportListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
+    this.userService.getUsers().subscribe((users: Response<User[]>) => {
       this.userList = users.data;
      });
     this.projectService.getProjects().subscribe((project: Response<Project[]>) => {

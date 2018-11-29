@@ -8,7 +8,7 @@ import { UserActionsComponent } from '../user-actions.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 
 import { UserService } from '../../../@core/data/users.service';
-import { UserT } from '../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
 import { Response } from './../../../@core/models/response';
 import { UserRoleService } from '../../../@core/data/user-role.service';
 import { Role } from '../../../@core/models/role';
@@ -41,36 +41,11 @@ export class UserListComponent implements OnInit {
         type: 'string',
         filter: true,
       },
-/*       roleId: {
-        title: 'Role',
-        type: 'html',
-        valuePrepareFunction: (value) => {
-          if (value) {
-            let roleName: string;
-            this.roleService.getRole(value).subscribe((role: Response<Role>) => {
-               console.log(role.data.roleName);
-               roleName = role.data.roleName;
-               return `<div class = "row">
-                          <div class = "container">
-                            ${roleName}
-                          </div>
-                        </div>`;
-              });
-            } else {
-                return `<div class = "row">
-                          <div class = "container">
-                             No Role Assigned
-                          </div>
-                        </div>`;
-            }
-          },
-        filter: false,
-      }, */
       roleId: {
         title: 'Role',
         type: 'html',
         valuePrepareFunction: (value) => {
-          if (value) {
+          if (value && this.roles) {
               for (const role of this.roles) {
                 if (role.id === value)
                   return `<div class = "row">
@@ -104,7 +79,7 @@ export class UserListComponent implements OnInit {
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
-               this.service.deleteUserT(row.id).subscribe( data => {
+               this.service.deleteUser(row.id).subscribe( data => {
                 this.getTableData();
               });
             }
@@ -148,10 +123,10 @@ export class UserListComponent implements OnInit {
   }
 
   getTableData() {
-    this.service.getUsersT()
-    .subscribe((users: Response<UserT[]>) => {
+    this.service.getUsers()
+    .subscribe((users: Response<User[]>) => {
       // quit--
-      const user2: UserT[] = [];
+      const user2: User[] = [];
       for (const user of users.data) {
         if (!user.isDeleted)
         user2.push(user);

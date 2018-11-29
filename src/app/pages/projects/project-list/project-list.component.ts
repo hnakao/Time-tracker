@@ -11,7 +11,8 @@ import { ProjectInfoComponent } from './../project-info/project-info.component';
 import { Project } from '../../../@core/models/project';
 import { Response } from '../../../@core/models/response';
 import { UserService } from '../../../@core/data/users.service';
-import { UserT } from '../../../@core/models/userT';
+import { User } from '../../../@core/models/user';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-project-list',
@@ -24,19 +25,10 @@ import { UserT } from '../../../@core/models/userT';
 })
 export class ProjectListComponent implements OnInit {
 
-  usersList: UserT[];
+  usersList: User[];
   settings = {
     hideSubHeader: true,
     actions: false,
-    /*edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },*/
     columns: {
       projectName: {
         title: 'Project Name',
@@ -44,22 +36,23 @@ export class ProjectListComponent implements OnInit {
         filter: false,
       },
       estimatedDuration: {
-        title: 'Estimated Duration',
+        title: 'Estimated Duration t/h',
         type: 'number',
         filter: false,
       },
-      currentSpentTimet: {
-        title: 'Spent Time',
+      currentSpentTime: {
+        title: 'Spent Time t/h',
         type: 'number',
         filter: false,
       },
-      usersId: {
+      users: {
         title: 'Users Assigned',
         type: 'html',
         valuePrepareFunction: (value) => {
           let chip: string = ``;
           let userName: string;
-          if (value) {
+          console.log(value);
+          if (value && this.usersList) {
             for (const user of this.usersList) {
               for (let i = 0; i < value.length; i++)
                   if (user.id === value[i]) {
@@ -68,7 +61,7 @@ export class ProjectListComponent implements OnInit {
                     chip =  `${chip}
                         <div class = "row">
                           <div class = "container">
-                          ${userName}
+                             ${userName}
                           </div>
                         </div>
                       `;
@@ -141,8 +134,13 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsersT().subscribe((users: Response<UserT[]>) => {
-      this.usersList = users.data;
+    this.userService.getUsers().subscribe((users: Response<User[]>) => {
+      const users2: User[] = [];
+      for (const user of users.data) {
+        if (!user.isDeleted)
+        users2.push(user);
+      }
+      this.usersList = users2;
   });
     this.getTableData();
   }

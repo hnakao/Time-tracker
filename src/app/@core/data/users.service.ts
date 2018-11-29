@@ -1,18 +1,12 @@
-import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
-
-
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from './global.service';
-import { UserT } from '../models/userT';
+import { User } from '../models/user';
 import { Response } from './../models/response';
-
-let counter = 0;
-
 
 @Injectable()
 export class UserService {
@@ -25,23 +19,23 @@ export class UserService {
     this.baseUrl = `${this.global.apiUrl()}users`;
   }
 
-  getUsersT() {
-    return this.http.get<Response<UserT[]>>(this.baseUrl);
+  getUsers() {
+    return this.http.get<Response<User[]>>(this.baseUrl);
   }
 
-  getUserT(id: string) {
-    return this.http.get<Response<UserT>>(`${this.baseUrl}/${id}`);
+  getUser(id: string) {
+    return this.http.get<Response<User>>(`${this.baseUrl}/${id}`);
   }
 
-  createUserT(userT: UserT) {
-    return this.http.post(this.baseUrl, userT);
+  createUser(user: User) {
+    return this.http.post(this.baseUrl, user);
   }
 
-  updateUserT(userT: UserT) {
-    return this.http.put(`${this.baseUrl}/${userT.id}`, userT);
+  updateUser(user: User) {
+    return this.http.put(`${this.baseUrl}/${user.id}`, user);
   }
 
-  deleteUserT(id: string) {
+  deleteUser(id: string) {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
@@ -58,7 +52,7 @@ export class UserService {
 
   // The Theme Default-------------------------------------------------------
 
-  private users = {
+/*   private users = {
     nick: { picture: 'assets/images/nick.png', name: 'Nick Jones',
             last_name: 'Pérez', email: 'operezs1990@gmail.com'},
     eva: { picture: 'assets/images/nick.png', name: 'Eva Moor',
@@ -93,37 +87,6 @@ export class UserService {
 
   getData() {
     return Object.values(this.users);
-  }
+  } */
 }
-/*   data: UserT[] = [
-    new UserT( 'Orlando', 'Pérez', 'operezs1990@gmail.com'),
-    new UserT( 'Oscar', 'Pérez', 'operezs1990@gmail.com'),
-    new UserT( 'Eva Moor', 'Pérez', 'operezs1990@gmail.com'),
-    new UserT( 'Carlos', 'Pérez', 'operezs1990@gmail.com'),
-  ];
 
-  getUsersT(): Observable<UserT[]> {
-    return observableOf(this.data);
-  }
-
-  createUserT(user: UserT): Observable<UserT[]> {
-    this.data.push(user);
-    return observableOf(this.data);
-  }
-
-  updateUserT(user: UserT): Observable<any> {
-    return observableOf(this.data);
-  }
-
-  deleteUserT(name: string): Observable<any> {
-    let index = -1;
-    for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i].userName === name) {
-        index = i;
-      }
-    }
-    if (index >= 0)
-      this.data.splice(index, 1);
-    return observableOf(this.data);
-  }
- */

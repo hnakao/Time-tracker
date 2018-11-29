@@ -12,8 +12,10 @@ import { UserRoleService } from './../../../@core/data/user-role.service';
 })
 export class AddRoleComponent implements OnInit {
 
-
+  basicSalary = 0;
   payHoursWork = 0;
+  extraHours = 0;
+  payExtraHours = 0;
   role: Role;
   titleForm: string;
 
@@ -33,38 +35,19 @@ export class AddRoleComponent implements OnInit {
     this.activeModal.close();
   }
 
-  /* onSubmit() {
-    let find = false;
-    for (const role of this.roleService.data) {
-      if (role.roleName === this.role.roleName ) {
-          this.roleService.updateRole(this.role).subscribe( data => {
-          this.closeModal();
-          this.onSave();
-        });
-      find = true;
-      break;
-      }
-    }
-    if (!find) {
-        this.roleService.createRole(this.role).subscribe( data => {
-        this.closeModal();
-        this.onSave();
-       });
-    }
- } */
-
   onItemSelect() {
-
   }
 
   onSubmit() {
+    this.role.basicSalary = this.basicSalary;
+    this.role.extraHours = this.extraHours;
+    this.role.payExtraHours = this.payExtraHours;
     if (this.role.id) {
       this.roleService.updateRole(this.role).subscribe( data => {
         this.closeModal();
         this.onSave();
       });
     } else {
-
       this.roleService.createRole(this.role).subscribe( data => {
         this.closeModal();
         this.onSave();
