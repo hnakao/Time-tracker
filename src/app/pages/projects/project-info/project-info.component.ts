@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from '../../../@core/models/project';
+import { User } from '../../../@core/models/user';
+import { UserService } from '../../../@core/data/users.service';
+import { Response } from '../../../@core/models/response';
 
 
 
@@ -12,19 +15,20 @@ import { Project } from '../../../@core/models/project';
   styleUrls: ['./project-info.component.scss'],
 })
 export class ProjectInfoComponent implements OnInit {
-
+  usersId: {id}[];
   project: Project;
-  userAsigned = false;
+  userAsigned: string[];
   titleForm: string;
   percent: number;
 
-  constructor(private activeModal: NgbActiveModal) { }
+  constructor(private activeModal: NgbActiveModal, private userService: UserService) { }
 
   ngOnInit() {
     this.progresPercent();
-    if (this.project.usersId) {
-       this.userAsigned = true;
-    }
+    this.getUserAsigned();
+  }
+
+  getUserAsigned() {
   }
 
   closeModal() {

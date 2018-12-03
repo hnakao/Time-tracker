@@ -8,11 +8,12 @@ export class Role {
     payExtraHours: number;
     description: string;
     // TODO:--quit
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 
     constructor(roleName: string, workMode: string, basicSalary: number,
-                description: string, extraHours: number, payExtraHours?: number) {
+                description: string, extraHours: number, payExtraHours?: number,
+                updatedAt?: Date, createdAt?: Date ) {
         this.roleName = roleName;
         this.workMode = workMode;
         this.basicSalary = basicSalary;
@@ -20,7 +21,7 @@ export class Role {
         this.payExtraHours = payExtraHours;
         this.description = description;
         // TODO:--quit
-        this.createdAt = '2018-11-27T16:41:34.000Z';
-        this.updatedAt = '2018-11-27T16:41:34.000Z';
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

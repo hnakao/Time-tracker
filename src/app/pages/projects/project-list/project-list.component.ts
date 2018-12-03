@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -23,9 +23,9 @@ import { User } from '../../../@core/models/user';
   `],
 })
 export class ProjectListComponent implements OnInit {
-
+  @Input() usersAssig: {id}[] = [];
   usersList: User[];
-  userAsigned = false;
+  userAsigned: string[] = [];
 
   settings = {
     hideSubHeader: true,
@@ -85,8 +85,8 @@ export class ProjectListComponent implements OnInit {
         filter: false,
         renderComponent: ProjectActionsComponent,
         onComponentInitFunction: (instance) => {
-          instance.edit.subscribe(row => {
-            this.editProject(row);
+          instance.edit.subscribe(project => {
+            this.editProject(project);
           });
           instance.delete.subscribe(row => {
             if (window.confirm('Are you sure you want to delete?')) {
@@ -126,13 +126,22 @@ export class ProjectListComponent implements OnInit {
     (<AddProjectComponent>modal.componentInstance).usersId = project.users;
     (<AddProjectComponent>modal.componentInstance).titleForm = 'Edit Project';
     (<AddProjectComponent>modal.componentInstance).save.subscribe(data => {
+      project.users = this.usersAssig;
       this.getTableData();
     });
   }
 
   onView(row): void {
     const modal: NgbModalRef = this.modalService.open(ProjectInfoComponent, { size: 'lg', container: 'nb-layout' });
+    for (const userA of row.users) {
+      this.userService.getUser(userA.id).subscribe((user: Response<User>) => {
+       this.userAsigned = [...this.userAsigned, user.data.firstName];
+       });
+    }
     (<ProjectInfoComponent>modal.componentInstance).project = row;
+    (<ProjectInfoComponent>modal.componentInstance).usersId = row.users;
+    (<ProjectInfoComponent>modal.componentInstance).userAsigned = this.userAsigned;
+
   }
 
   ngOnInit() {

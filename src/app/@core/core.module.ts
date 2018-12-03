@@ -46,7 +46,9 @@ export const NB_CORE_PROVIDERS = [
           class: NbAuthJWTToken,
           key: 'data.token', // this parameter tells where to look for the token
         },
-        baseEndpoint: 'http://localhost:4000/api/v1/', // TODO: coger de global service
+         // TODO: coger de global service
+        baseEndpoint: ' http://ec2-35-180-192-236.eu-west-3.compute.amazonaws.com/api/v1/',
+        // baseEndpoint: ' http://localhost:4000/api/v1/',
         login: {
           alwaysFail: false,
           endpoint: 'login',

@@ -16,13 +16,13 @@
       <div class = "col-md-3">
         <label><strong>Estimated Duration:</strong> </label>
         <div class = "container">
-          <h6>{{project.estimatedDuration}}</h6>
+          <h6>{{project.estimatedDuration}} hours</h6>
         </div>
       </div>
       <div class = "col-md-3">
         <label><strong>Spent Time:</strong> </label>
         <div class = "container">
-          <h6>{{project.currentSpentTime}}</h6>
+          <h6>{{project.currentSpentTime}} hours</h6>
         </div>
       </div>
       <div class = "col-md-6">
@@ -41,10 +41,10 @@
     
     <div>
       <label><strong>User(s) Asigned:</strong> </label>
-      <div *ngIf="userAsigned === true; else noUser" >
-        <div class = "container col row" *ngFor="let user of project.usersId; let i = index;" >
+      <div *ngIf="usersId; else noUser" >
+        <div class = "container col row" *ngFor="let user of usersId; let i = index;" >
           <div class = "col-md-4">
-            <h6>TODO: User list</h6>
+            <h6>ooo{{userAsigned[i]}}</h6>
           </div>
         </div>
       </div>

@@ -19,9 +19,9 @@ import { Response } from '../../../@core/models/response';
 })
 export class AddProjectComponent implements OnInit {
 
-
+  @Output () usersAssig: {id}[];
   project: Project;
-  usersId: string[];
+  usersId: {id}[];
   titleForm: string;
 
   userAssignedItems = [];
@@ -63,11 +63,13 @@ export class AddProjectComponent implements OnInit {
         for (const user of users.data) {
           if (!user.isDeleted) {
             userDrop.push(user);
-            for (let i = 0; i < this.usersId.length; i++) {
-                if (user.id === this.usersId[i]) {
-                  userAssigned.push(user);
+            if (this.usersId) {
+             for (const userId of this.usersId) {
+              if (user.id === userId.id) {
+                userAssigned.push(user);
                   }
                 }
+              }
             }
           }
         this.userAssignedItems = userAssigned;
@@ -78,14 +80,22 @@ export class AddProjectComponent implements OnInit {
  userAssignedMultiSelect() {
   this.project.usersId = [];
   if (this.userAssignedItems.length !== 0) {
-     for (let i = 0; i < this.userAssignedItems.length; i++) {
-         this.project.usersId.push( this.userAssignedItems[i].id );
+      for (let i = 0; i < this.userAssignedItems.length; i++) {
+            this.project.usersId.push( this.userAssignedItems[i].id );
+          }
         }
-    }
+
+  if (this.titleForm === 'Edit Project') {
+    console.log('entro');
+    this.usersAssig = [];
+
+  }
  }
 
  onSubmit() {
   this.userAssignedMultiSelect();
+  delete this.project.usersId;
+
   if (this.project.id) {
       this.projectService.updateProject(this.project).subscribe( data => {
       this.closeModal();
